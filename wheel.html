@@ -5,90 +5,243 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Love Is Kindness — Words of Power</title>
 
-  <!-- PT Sans — Google Fonts -->
+  <!-- Body type -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
 
   <!--
-  ╔══════════════════════════════════════════════════════════════╗
-  ║  ADOBE FONTS — Add your kit link for:                       ║
-  ║    Orpheus Pro  •  Adobe Garamond Pro                       ║
-  ║  <link rel="stylesheet" href="https://use.typekit.net/XXXXXXX.css" /> ║
-  ╚══════════════════════════════════════════════════════════════╝
+    On the live Squarespace site, replace the Google Font links above with
+    your Adobe Fonts kit so Orpheus Pro and Adobe Garamond Pro load instead.
+    The CSS variables below will pick them up automatically.
+
+    <link rel="stylesheet" href="https://use.typekit.net/XXXXXXX.css" />
   -->
 
   <style>
-    /* ============================================================
-       DESIGN TOKENS
-    ============================================================ */
+    /* ====================================================================
+       DESIGN TOKENS — tuned to the Love Is Kindness site
+    ==================================================================== */
     :root {
-      --black:        #000000;
-      --white:        #f2f2f2;
-      --keyline:      #cccccc;
-      --pink:         #e73879;
-      --yellow:       #fcc737;
-      --purple:       #7e1891;
-      --accent:       #e73879;
-      --accent-faint: rgba(231,56,121,0.08);
+      --black:         #000000;
+      --ink:           #0a0a0a;
+      --paper:         #f4f0e8;
+      --bone:          #e8e1d3;
+      --keyline:       rgba(244, 240, 232, 0.12);
+      --keyline-soft:  rgba(244, 240, 232, 0.06);
 
-      --font-heading: 'Orpheus Pro', 'Palatino Linotype', 'Palatino', serif;
-      --font-body:    'PT Sans', sans-serif;
-      --font-meta:    'Adobe Garamond Pro', 'Adobe Garamond', 'Garamond', serif;
+      /* Three ribbon colours from the site */
+      --pink:          #e73879;
+      --yellow:        #fcc737;
+      --purple:        #7e1891;
+
+      /* Tints for highlight blocks (matching the quote callouts on the site) */
+      --pink-tint:     #f7c0d3;
+      --yellow-tint:   #fde6a0;
+      --purple-tint:   #d6c0e4;
+
+      --font-display:  'Orpheus Pro', 'Cormorant Garamond', 'Palatino Linotype', serif;
+      --font-body:     'PT Sans', sans-serif;
+      --font-meta:     'Adobe Garamond Pro', 'EB Garamond', 'Garamond', serif;
     }
 
-    /* ============================================================
+    /* ====================================================================
        RESET & BASE
-    ============================================================ */
+    ==================================================================== */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     html, body {
       width: 100%;
       min-height: 100%;
       background: var(--black);
-      color: var(--white);
+      color: var(--paper);
       font-family: var(--font-body);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
       overflow-x: hidden;
     }
 
-    /* ============================================================
-       APP — two-column layout
-    ============================================================ */
+    /* ====================================================================
+       LAYOUT — full bleed editorial frame
+    ==================================================================== */
     #app {
-      display: flex;
-      flex-direction: row;
-      align-items: flex-start;
+      position: relative;
       width: 100%;
       min-height: 100vh;
+      padding: 36px clamp(20px, 4vw, 56px) 48px;
+      display: flex;
+      flex-direction: column;
     }
 
-    /* ── LEFT PANEL ─────────────────────────────────────────── */
-    #left-panel {
+    /* Subtle ribbon flourishes in the background — echo of the site's letterforms */
+    #app::before,
+    #app::after {
+      content: '';
+      position: absolute;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.55;
+      mix-blend-mode: screen;
+    }
+    #app::before {
+      top: -120px;
+      right: -160px;
+      width: 520px;
+      height: 520px;
+      background: radial-gradient(circle at center, rgba(231, 56, 121, 0.18), transparent 62%);
+      filter: blur(40px);
+    }
+    #app::after {
+      bottom: -140px;
+      left: -120px;
+      width: 540px;
+      height: 540px;
+      background: radial-gradient(circle at center, rgba(126, 24, 145, 0.22), transparent 62%);
+      filter: blur(50px);
+    }
+
+    /* ====================================================================
+       HEADER — title row
+    ==================================================================== */
+    #masthead {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 24px;
+      padding-bottom: 22px;
+      margin-bottom: 28px;
+      border-bottom: 1px solid var(--keyline);
+    }
+
+    #masthead-left {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .eyebrow {
+      font-family: var(--font-meta);
+      font-style: italic;
+      font-weight: 400;
+      font-size: 13px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: rgba(244, 240, 232, 0.45);
+    }
+
+    #title {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: clamp(28px, 4vw, 44px);
+      letter-spacing: 0.005em;
+      line-height: 1;
+      color: var(--paper);
+    }
+    #title em {
+      font-style: italic;
+      font-weight: 400;
+      color: var(--pink);
+    }
+
+    #masthead-right {
+      font-family: var(--font-meta);
+      font-style: italic;
+      font-size: 12px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(244, 240, 232, 0.4);
+      text-align: right;
+      max-width: 280px;
+      line-height: 1.6;
+    }
+    #masthead-right strong {
+      color: var(--paper);
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    /* ====================================================================
+       LETTER INDEX — always visible alphabet strip
+    ==================================================================== */
+    #letter-index {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0;
+      margin-bottom: 36px;
+      border-top: 1px solid var(--keyline-soft);
+      border-bottom: 1px solid var(--keyline-soft);
+    }
+
+    .letter-btn {
+      flex: 1 1 auto;
+      min-width: 32px;
+      padding: 14px 4px 12px;
+      font-family: var(--font-display);
+      font-weight: 400;
+      font-size: 17px;
+      line-height: 1;
+      background: transparent;
+      border: none;
+      border-right: 1px solid var(--keyline-soft);
+      color: rgba(244, 240, 232, 0.32);
+      cursor: pointer;
+      transition: color 0.22s ease, background 0.22s ease, transform 0.22s ease;
+      position: relative;
+    }
+    .letter-btn:last-child { border-right: none; }
+    .letter-btn:hover { color: var(--paper); }
+    .letter-btn.has-content { color: rgba(244, 240, 232, 0.62); }
+    .letter-btn.has-content:hover { color: var(--paper); }
+
+    .letter-btn.active {
+      color: var(--paper);
+      background: linear-gradient(to bottom, rgba(244, 240, 232, 0.04), transparent);
+    }
+    .letter-btn.active::after {
+      content: '';
+      position: absolute;
+      left: 18%;
+      right: 18%;
+      bottom: -1px;
+      height: 2px;
+      background: var(--accent, var(--pink));
+    }
+
+    .letter-btn.empty {
+      color: rgba(244, 240, 232, 0.18);
+    }
+    .letter-btn.empty:hover {
+      color: rgba(244, 240, 232, 0.45);
+    }
+
+    /* ====================================================================
+       MAIN STAGE — wheel + word panel
+    ==================================================================== */
+    #stage {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+      gap: clamp(28px, 4vw, 64px);
+      align-items: start;
+    }
+
+    /* ── LEFT: wheel ─────────────────────────────────────────────── */
+    #wheel-col {
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 32px 24px 36px;
-      flex-shrink: 0;
-      width: 46%;
-      max-width: 480px;
-      min-width: 280px;
+      gap: 24px;
     }
 
-    #current-letter-badge {
-      font-family: var(--font-meta);
-      font-size: 11px;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: rgba(242,242,242,0.32);
-      margin-bottom: 14px;
-      align-self: flex-start;
-    }
-    #current-letter-badge span { color: var(--accent); }
-
-    /* Wheel */
     #wheel-wrapper {
       position: relative;
       width: 100%;
+      max-width: 560px;
       aspect-ratio: 1 / 1;
     }
 
@@ -96,537 +249,524 @@
       display: block;
       width: 100%;
       height: 100%;
+      cursor: grab;
     }
+    #wheel-canvas:active { cursor: grabbing; }
 
-    #center-overlay {
+    /* Centre letter — sized to the wheel's inner radius via JS, but anchored visually here */
+    #centre {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
       pointer-events: none;
+      width: 33%;
+      height: 33%;
       display: flex;
       align-items: center;
       justify-content: center;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--black) 56%, rgba(0,0,0,0) 100%);
     }
 
-    #letter-image {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
-      opacity: 0;
-      transition: opacity 0.4s ease;
-    }
-    #letter-image.visible { opacity: 1; }
-
-    #letter-fallback {
-      font-family: var(--font-heading);
+    #centre-letter {
+      font-family: var(--font-display);
       font-weight: 400;
-      color: var(--white);
-      line-height: 1;
+      font-size: clamp(72px, 11vw, 130px);
+      line-height: 0.85;
+      color: var(--paper);
       user-select: none;
-      animation: popIn 0.4s cubic-bezier(0.34,1.56,0.64,1) both;
+      transform-origin: center;
+      animation: letterIn 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
     }
 
-    @keyframes popIn {
-      from { opacity: 0; transform: scale(0.7); }
-      to   { opacity: 1; transform: scale(1); }
+    @keyframes letterIn {
+      from { opacity: 0; transform: scale(0.78) translateY(4px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
     }
 
     /* Controls */
     #controls {
       display: flex;
       align-items: center;
-      gap: 10px;
-      margin-top: 22px;
+      gap: 14px;
     }
 
-    .ctrl-btn {
+    .btn {
       font-family: var(--font-meta);
-      font-size: 11px;
-      letter-spacing: 0.22em;
+      font-style: italic;
+      font-size: 12px;
+      letter-spacing: 0.24em;
       text-transform: uppercase;
-      border-radius: 50px;
       cursor: pointer;
-      padding: 9px 28px;
-      transition: all 0.2s ease;
+      padding: 12px 26px;
+      border-radius: 999px;
       border: 1px solid transparent;
+      background: transparent;
+      transition: all 0.25s ease;
+      line-height: 1;
     }
 
     #spin-btn {
-      background: var(--accent);
-      color: var(--black);
-      border-color: var(--accent);
-      font-weight: 700;
+      background: var(--paper);
+      color: var(--ink);
+      border-color: var(--paper);
+      font-weight: 500;
     }
-    #spin-btn:hover:not(:disabled) { filter: brightness(1.12); }
-    #spin-btn:disabled { opacity: 0.28; cursor: default; }
-
-    #switch-btn {
-      background: transparent;
-      color: rgba(242,242,242,0.5);
-      border-color: rgba(242,242,242,0.16);
+    #spin-btn:hover:not(:disabled) {
+      background: var(--accent, var(--pink));
+      border-color: var(--accent, var(--pink));
+      color: var(--paper);
     }
-    #switch-btn:hover { border-color: rgba(242,242,242,0.38); color: var(--white); }
-    #switch-btn.active { border-color: var(--accent); color: var(--accent); }
+    #spin-btn:disabled { opacity: 0.4; cursor: default; }
 
-    /* Landed label */
-    #landed-label {
+    #reset-btn {
+      color: rgba(244, 240, 232, 0.55);
+      border-color: rgba(244, 240, 232, 0.18);
+    }
+    #reset-btn:hover {
+      color: var(--paper);
+      border-color: var(--paper);
+    }
+
+    #landed {
+      margin-top: 4px;
       font-family: var(--font-meta);
-      font-size: 11px;
-      letter-spacing: 0.1em;
-      color: rgba(242,242,242,0.26);
-      margin-top: 12px;
-      min-height: 16px;
+      font-style: italic;
+      font-size: 13px;
+      letter-spacing: 0.06em;
+      color: rgba(244, 240, 232, 0.35);
+      min-height: 18px;
       text-align: center;
     }
-    #landed-label span { color: rgba(242,242,242,0.5); }
-
-    /* Letter nav */
-    #letter-nav {
-      display: none;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 5px;
-      margin-top: 16px;
-      width: 100%;
-    }
-    #letter-nav.open { display: flex; }
-
-    .letter-btn {
-      font-family: var(--font-meta);
-      font-size: 11px;
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      border: 1px solid rgba(242,242,242,0.1);
-      background: transparent;
-      color: rgba(242,242,242,0.35);
-      cursor: pointer;
-      transition: border-color 0.15s, color 0.15s, background 0.15s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0;
-      line-height: 1;
-    }
-    .letter-btn:hover { border-color: rgba(242,242,242,0.3); color: var(--white); }
-    .letter-btn.active { border-color: var(--accent); color: var(--accent); background: var(--accent-faint); }
-
-    /* ── RIGHT PANEL ────────────────────────────────────────── */
-    #right-panel {
-      flex: 1;
-      min-height: 100vh;
-      border-left: 1px solid rgba(204,204,204,0.1);
-      display: flex;
-      flex-direction: column;
-      padding: 32px 36px 40px;
+    #landed strong {
+      color: var(--paper);
+      font-weight: 400;
     }
 
-    /* Panel header */
-    #panel-head {
+    /* ── RIGHT: word panel ───────────────────────────────────────── */
+    #panel {
+      position: relative;
+      padding: 4px 0 0;
+      min-height: 480px;
+    }
+
+    #panel-meta {
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      margin-bottom: 36px;
+      align-items: baseline;
+      padding-bottom: 18px;
+      margin-bottom: 30px;
+      border-bottom: 1px solid var(--keyline);
     }
 
-    #panel-meta-label {
+    .meta-label {
       font-family: var(--font-meta);
-      font-size: 10px;
-      letter-spacing: 0.3em;
+      font-style: italic;
+      font-size: 12px;
+      letter-spacing: 0.24em;
       text-transform: uppercase;
-      color: rgba(204,204,204,0.45);
+      color: rgba(244, 240, 232, 0.5);
+    }
+    .meta-label .meta-letter {
+      color: var(--accent, var(--pink));
+      font-style: normal;
+      letter-spacing: 0.1em;
     }
 
-    #list-badge {
+    .meta-count {
       font-family: var(--font-meta);
-      font-size: 10px;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: rgba(204,204,204,0.35);
+      font-style: italic;
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      color: rgba(244, 240, 232, 0.4);
     }
 
-    /* Empty state */
+    /* Empty / waiting state */
     #empty-state {
-      flex: 1;
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
-      flex-direction: column;
-      padding: 20px 0 40px;
+      padding: 32px 0;
     }
     #empty-state.hidden { display: none; }
 
-    #empty-state p {
+    #empty-pretitle {
       font-family: var(--font-meta);
-      font-size: 15px;
-      letter-spacing: 0.04em;
-      color: rgba(204,204,204,0.25);
-      line-height: 1.8;
+      font-style: italic;
+      font-size: 13px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(244, 240, 232, 0.4);
+      margin-bottom: 16px;
     }
 
-    /* Word state */
+    #empty-title {
+      font-family: var(--font-display);
+      font-weight: 400;
+      font-size: clamp(32px, 4.4vw, 50px);
+      line-height: 1.05;
+      color: var(--paper);
+      margin-bottom: 18px;
+      max-width: 22ch;
+    }
+    #empty-title em {
+      font-style: italic;
+      color: var(--accent, var(--pink));
+    }
+
+    #empty-body {
+      font-family: var(--font-meta);
+      font-style: italic;
+      font-size: 17px;
+      line-height: 1.6;
+      color: rgba(244, 240, 232, 0.55);
+      max-width: 38ch;
+    }
+
+    /* Coming-soon state (letter has no words yet) */
+    #coming-state { display: none; padding: 36px 0; }
+    #coming-state.visible { display: block; }
+
+    #coming-title {
+      font-family: var(--font-display);
+      font-weight: 400;
+      font-style: italic;
+      font-size: clamp(28px, 3.4vw, 38px);
+      color: var(--paper);
+      margin-bottom: 14px;
+    }
+    #coming-body {
+      font-family: var(--font-meta);
+      font-style: italic;
+      font-size: 16px;
+      line-height: 1.6;
+      color: rgba(244, 240, 232, 0.5);
+      max-width: 40ch;
+    }
+
+    /* Word reveal state */
     #word-state {
       display: none;
-      flex-direction: column;
       opacity: 0;
-      transform: translateY(14px);
+      transform: translateY(10px);
       transition:
-        opacity   0.52s cubic-bezier(0.22,1,0.36,1),
-        transform 0.52s cubic-bezier(0.22,1,0.36,1);
+        opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
     }
     #word-state.visible {
-      display: flex;
+      display: block;
       opacity: 1;
       transform: translateY(0);
     }
 
-    /* Word heading */
-    #word-title {
-      font-family: var(--font-heading);
-      font-size: clamp(38px, 5.5vw, 60px);
-      font-weight: 400;
-      letter-spacing: 0.02em;
-      color: var(--accent);
-      line-height: 1.05;
+    #word-eyebrow {
+      font-family: var(--font-meta);
+      font-style: italic;
+      font-size: 12px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: rgba(244, 240, 232, 0.5);
       margin-bottom: 14px;
-      transition: color 0.3s ease;
     }
 
-    /* Description */
+    #word-title {
+      font-family: var(--font-display);
+      font-weight: 400;
+      font-size: clamp(56px, 8vw, 96px);
+      line-height: 0.96;
+      color: var(--accent, var(--pink));
+      margin-bottom: 20px;
+      letter-spacing: -0.005em;
+    }
+    #word-title .word-tail { font-style: italic; }
+
     #word-desc {
-      font-family: var(--font-body);
-      font-size: 15px;
-      line-height: 1.78;
-      color: rgba(242,242,242,0.68);
-      margin-bottom: 28px;
+      font-family: var(--font-meta);
+      font-style: italic;
+      font-size: clamp(17px, 1.6vw, 20px);
+      line-height: 1.55;
+      color: rgba(244, 240, 232, 0.82);
+      margin-bottom: 36px;
+      max-width: 40ch;
+      letter-spacing: 0.005em;
     }
 
-    /* Divider */
-    .panel-divider {
-      width: 36px;
-      height: 1px;
-      background: rgba(204,204,204,0.18);
-      margin-bottom: 24px;
-    }
-
-    /* Steps */
-    #word-steps {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
+    /* Steps — editorial card list with ribbon side bars */
+    #steps-label {
+      font-family: var(--font-meta);
+      font-style: italic;
+      font-size: 12px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: rgba(244, 240, 232, 0.5);
+      margin-bottom: 18px;
     }
 
     .step {
+      position: relative;
       display: flex;
-      align-items: flex-start;
-      gap: 14px;
+      gap: 18px;
+      padding: 16px 18px 16px 22px;
+      margin-bottom: 10px;
+      background: rgba(244, 240, 232, 0.025);
+      border: 1px solid var(--keyline-soft);
     }
+    .step::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+    }
+    .step.s1::before { background: var(--pink); }
+    .step.s2::before { background: var(--yellow); }
+    .step.s3::before { background: var(--purple); }
 
     .step-num {
+      font-family: var(--font-display);
+      font-weight: 400;
+      font-size: 22px;
+      line-height: 1;
       flex-shrink: 0;
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: var(--font-meta);
-      font-size: 10.5px;
-      letter-spacing: 0.01em;
-      margin-top: 2px;
+      width: 28px;
+      padding-top: 1px;
     }
-    .step-num.n1 { color: var(--pink);   border: 1px solid var(--pink);   }
-    .step-num.n2 { color: var(--yellow); border: 1px solid var(--yellow); }
-    .step-num.n3 { color: var(--purple); border: 1px solid var(--purple); }
+    .step.s1 .step-num { color: var(--pink); }
+    .step.s2 .step-num { color: var(--yellow); }
+    .step.s3 .step-num { color: var(--purple); }
 
     .step p {
       font-family: var(--font-body);
-      font-size: 14px;
-      line-height: 1.68;
-      color: rgba(242,242,242,0.58);
+      font-size: 15px;
+      line-height: 1.55;
+      color: rgba(244, 240, 232, 0.78);
     }
 
-    /* ============================================================
-       MOBILE — stack below 700 px
-    ============================================================ */
-    @media (max-width: 700px) {
-      #app { flex-direction: column; min-height: auto; }
-      #left-panel  { width: 100%; max-width: 100%; padding: 24px 20px 20px; }
-      #right-panel { border-left: none; border-top: 1px solid rgba(204,204,204,0.1); min-height: auto; padding: 28px 20px 36px; }
-      #panel-head  { margin-bottom: 24px; }
+    /* ====================================================================
+       RESPONSIVE
+    ==================================================================== */
+    @media (max-width: 900px) {
+      #stage { grid-template-columns: 1fr; gap: 36px; }
+      #wheel-col { max-width: 480px; margin: 0 auto; }
+      #panel { min-height: auto; }
+      #masthead { flex-direction: column; align-items: flex-start; }
+      #masthead-right { text-align: left; max-width: 100%; }
     }
 
-    @media (max-width: 400px) {
-      .letter-btn  { width: 24px; height: 24px; font-size: 10px; }
-      #left-panel  { padding: 16px 14px; }
+    @media (max-width: 600px) {
+      #app { padding: 24px 16px 36px; }
+      .letter-btn { font-size: 14px; padding: 10px 2px; }
+      #word-title { font-size: clamp(44px, 12vw, 70px); }
+      #empty-title { font-size: clamp(28px, 8vw, 40px); }
+    }
+
+    @media (max-width: 420px) {
+      .letter-btn { min-width: 0; padding: 9px 1px; font-size: 12px; }
     }
   </style>
 </head>
 
 <body>
+
 <div id="app">
 
-  <!-- ── LEFT: WHEEL ─────────────────────────────────────────── -->
-  <div id="left-panel">
+  <!-- ── Masthead ───────────────────────────────────────────────── -->
+  <header id="masthead">
+    <div id="masthead-left">
+      <span class="eyebrow">Love is Kindness</span>
+      <h1 id="title">Words of <em>Power</em></h1>
+    </div>
+    <div id="masthead-right">
+      A living dictionary of who you already are. <strong>Choose a letter, spin, and meet the word that's looking for you.</strong>
+    </div>
+  </header>
 
-    <p id="current-letter-badge">Words of Power — <span id="badge-letter">L</span></p>
+  <!-- ── Alphabet index ─────────────────────────────────────────── -->
+  <nav id="letter-index" aria-label="Choose a letter"></nav>
 
-    <div id="wheel-wrapper">
-      <canvas id="wheel-canvas" aria-label="Spinning word wheel"></canvas>
-      <div id="center-overlay" aria-hidden="true">
-        <img id="letter-image" src="" alt="" />
-        <span id="letter-fallback"></span>
+  <!-- ── Stage ──────────────────────────────────────────────────── -->
+  <main id="stage">
+
+    <!-- LEFT — wheel -->
+    <section id="wheel-col">
+      <div id="wheel-wrapper">
+        <canvas id="wheel-canvas" aria-label="Words of Power wheel"></canvas>
+        <div id="centre">
+          <span id="centre-letter">A</span>
+        </div>
       </div>
-    </div>
 
-    <div id="controls">
-      <button id="spin-btn"   class="ctrl-btn">Spin</button>
-      <button id="switch-btn" class="ctrl-btn">Switch list</button>
-    </div>
-
-    <p id="landed-label"></p>
-
-    <nav id="letter-nav" aria-label="Select a letter"></nav>
-
-  </div>
-
-  <!-- ── RIGHT: DESCRIPTION ──────────────────────────────────── -->
-  <div id="right-panel">
-
-    <div id="panel-head">
-      <span id="panel-meta-label">Selected Word</span>
-      <span id="list-badge">L List</span>
-    </div>
-
-    <div id="empty-state" aria-live="polite">
-      <p>Spin the wheel to<br>discover your word.</p>
-    </div>
-
-    <div id="word-state" aria-live="polite">
-      <h2 id="word-title"></h2>
-      <p  id="word-desc"></p>
-      <div class="panel-divider"></div>
-      <div id="word-steps">
-        <div class="step"><span class="step-num n1">1</span><p id="step-1"></p></div>
-        <div class="step"><span class="step-num n2">2</span><p id="step-2"></p></div>
-        <div class="step"><span class="step-num n3">3</span><p id="step-3"></p></div>
+      <div id="controls">
+        <button id="spin-btn" class="btn">Spin</button>
+        <button id="reset-btn" class="btn">Reset</button>
       </div>
-    </div>
 
-  </div>
+      <div id="landed" aria-live="polite"></div>
+    </section>
 
+    <!-- RIGHT — panel -->
+    <aside id="panel">
+
+      <div id="panel-meta">
+        <span class="meta-label">Letter <span class="meta-letter" id="meta-letter">A</span></span>
+        <span class="meta-count" id="meta-count">— words</span>
+      </div>
+
+      <!-- Empty (initial) -->
+      <div id="empty-state">
+        <div id="empty-pretitle">An invitation</div>
+        <h2 id="empty-title">Spin the wheel to <em>meet your word.</em></h2>
+        <p id="empty-body">
+          Each letter holds a constellation of qualities you already carry. The wheel chooses one — the description and three small steps are yours to keep.
+        </p>
+      </div>
+
+      <!-- Coming soon (letters F–Z) -->
+      <div id="coming-state">
+        <div id="empty-pretitle">In the works</div>
+        <h2 id="coming-title">This letter is on its way.</h2>
+        <p id="coming-body">
+          We're still placing words behind this letter. Try A through E for now — and we'll let you know when the rest open up.
+        </p>
+      </div>
+
+      <!-- Word -->
+      <div id="word-state" aria-live="polite">
+        <div id="word-eyebrow">A word for today</div>
+        <h2 id="word-title"></h2>
+        <p id="word-desc"></p>
+        <div id="steps-label">Three small steps</div>
+        <div class="step s1">
+          <span class="step-num">i</span>
+          <p id="step-1"></p>
+        </div>
+        <div class="step s2">
+          <span class="step-num">ii</span>
+          <p id="step-2"></p>
+        </div>
+        <div class="step s3">
+          <span class="step-num">iii</span>
+          <p id="step-3"></p>
+        </div>
+      </div>
+
+    </aside>
+  </main>
 </div>
 
 <script>
 /* ====================================================================
-   LOVE IS KINDNESS — Words of Power  v2
+   LOVE IS KINDNESS — Words of Power
    ─────────────────────────────────────────────────────────────────
-   Parent-page integration (Squarespace iframe):
-     iframe.contentWindow.postMessage({ type: 'selectLetter', letter: 'A' }, '*');
-     iframe.contentWindow.postMessage({ type: 'spin' }, '*');
-
-   Events emitted to parent:
-     { type: 'letterChanged', letter: 'A' }
-     { type: 'wordSelected',  letter: 'A', word: 'Abundant' }
+   Letter accent colours rotate through the three site ribbon colours.
+   Wheel segments use the same palette as tints — so each wheel feels
+   like part of the site's flowing typography, not a generic spinner.
 ==================================================================== */
 
 /* ====================================================================
-   SECTION 1 — WORDS
+   SECTION 1 — LETTER ACCENTS
    ─────────────────────────────────────────────────────────────────
-   ⚠️  The .pages file uses a binary format that couldn't be fully
-       decoded. Please replace the placeholder content below with
-       your exact words, descriptions and prompts.
+   Each letter gets one of the three brand ribbon colours.
+   This matches the site, where letterforms rotate through the same
+   pink / yellow / purple palette.
+==================================================================== */
+const ACCENT_CYCLE = ['#e73879', '#fcc737', '#7e1891']; /* pink, yellow, purple */
+const LETTER_ACCENT = {};
+('ABCDEFGHIJKLMNOPQRSTUVWXYZ').split('').forEach(function (l, i) {
+  LETTER_ACCENT[l] = ACCENT_CYCLE[i % 3];
+});
 
-   Each entry:
+/* ====================================================================
+   SECTION 2 — WORDS
+   ─────────────────────────────────────────────────────────────────
+   A–E populated from Paolo's wheel sketches. Each word has:
      word        — shown on the wheel and as the panel heading
-     description — one punchy sentence definition
-     steps       — exactly 3 short actionable prompts
+     description — one punchy line, in Ingrid's voice
+     steps       — three small actionable prompts
+
+   F–Z are intentionally empty: the letter buttons are still clickable
+   and show a "coming soon" message in the panel.
+
+   When Ingrid sends the remaining lists, drop them into this object —
+   no other code changes needed.
 ==================================================================== */
 const WORDS = {
   A: [
-    { word: 'Authentic',   description: 'Authentic is showing up as your full, unfiltered self without apology.',          steps: ['Notice one way you are performing rather than being.', 'Share one true thought you have been holding back.', 'Choose honesty over comfort in one interaction today.'] },
-    { word: 'Abundant',    description: 'Abundant is recognising the overflow already present in your life.',              steps: ['List three things you already have more than enough of.', 'Give one of them to someone who needs it.', 'Say aloud: I have enough. I am enough. Right now.'] },
-    { word: 'Assertive',   description: 'Assertive is knowing your worth and speaking it clearly.',                        steps: ['Identify one boundary you have been avoiding setting.', 'Write a one-sentence statement that holds that boundary.', 'Use that sentence the next time it is needed.'] },
-    { word: 'Altruistic',  description: 'Altruistic is giving without keeping score.',                                    steps: ['Do one kind thing today with no expectation of return.', 'Notice how it feels in your body.', 'Let it end there — no story, no reward needed.'] },
-    { word: 'Adventurous', description: 'Adventurous is saying yes before you feel completely ready.',                    steps: ['Identify one thing you have been waiting to feel ready for.', 'Take the first, smallest action toward it today.', 'Notice that readiness follows movement, not the other way around.'] },
-    { word: 'Aligned',     description: 'Aligned is when your actions, words and values point the same way.',             steps: ['Write down your top three values.', 'Check one decision you made this week against them.', 'Make one small adjustment to close any gap you find.'] }
+    { word: 'Authentic',    description: 'Authentic is showing up as your full, unfiltered self — without apology.',         steps: ['Notice one way you are performing rather than being.', 'Share one true thought you have been holding back.', 'Choose honesty over comfort in one interaction today.'] },
+    { word: 'Abundant',     description: 'Abundant is recognising the overflow already present in your life.',                steps: ['List three things you already have more than enough of.', 'Give one of them to someone who needs it.', 'Say aloud: I have enough. I am enough. Right now.'] },
+    { word: 'Adventurous',  description: 'Adventurous is saying yes before you feel completely ready.',                       steps: ['Identify one thing you have been waiting to feel ready for.', 'Take the first, smallest action toward it today.', 'Notice that readiness follows movement, not the other way around.'] },
+    { word: 'Articulate',   description: 'Articulate is finding the words that match the size of what you mean.',            steps: ['Write down what you actually want to say, slowly.', 'Cut every word that is performing rather than landing.', 'Speak it out loud once, just to hear it true.'] },
+    { word: 'Accepting',    description: 'Accepting is meeting what is, instead of arguing with it.',                         steps: ['Name one thing you have been refusing to accept.', 'Ask: what becomes possible if I stop fighting this?', 'Take one breath, and let the resistance soften.'] },
+    { word: 'Aligned',      description: 'Aligned is when your actions, words and values point the same way.',               steps: ['Write down your top three values.', 'Check one decision you made this week against them.', 'Make one small adjustment to close any gap you find.'] },
+    { word: 'Ambitious',    description: 'Ambitious is letting yourself want what you actually want.',                       steps: ['Say the goal you usually keep quiet, out loud, once.', 'Tell one person who will not flinch when they hear it.', 'Take a single visible step toward it before the day ends.'] },
+    { word: 'Astute',       description: 'Astute is seeing through the surface to what is really being said.',               steps: ['Pause in your next conversation and listen for what is underneath the words.', 'Resist the urge to fill the silence.', 'Respond to what they actually mean, not just what they said.'] },
+    { word: 'Affectionate', description: 'Affectionate is letting warmth show on the outside.',                              steps: ['Tell one person something you love about them, plainly.', 'Touch — a hand, a shoulder, a hug — with intention today.', 'Let your face soften when you greet someone.'] },
+    { word: 'Adaptable',    description: 'Adaptable is staying yourself while the shape of things changes.',                 steps: ['Notice one plan that is not going the way you expected.', 'Ask: what is the next right step, given what is actually true?', 'Take that step without mourning the old plan.'] },
+    { word: 'Awake',        description: 'Awake is being present to the life that is happening right now.',                  steps: ['Put your phone down for one full hour today.', 'Notice five small things you would normally miss.', 'Thank one of them quietly, inside your head.'] },
+    { word: 'Assured',      description: 'Assured is the quiet certainty that does not need anyone else\'s vote.',          steps: ['Make one decision today without seeking a second opinion.', 'Hold it for an hour before re-examining.', 'Notice you survived not asking.'] }
   ],
-  B: [
-    { word: 'Brave',       description: 'Brave is doing the right thing before you feel ready.',                          steps: ['Name the thing you are avoiding.', 'Take the smallest first step.', 'Reward the action, not the outcome.'] },
-    { word: 'Brilliant',   description: 'Brilliant is the light you carry that no one else can replicate.',               steps: ['Name one thing you do effortlessly that others find difficult.', 'Let yourself call that a gift, not a given.', 'Use it intentionally once today.'] },
-    { word: 'Balanced',    description: 'Balanced is not having it all at once — it is knowing how to return to centre.', steps: ['Identify the area of your life most out of balance right now.', 'Name one thing you could add or remove to restore flow.', 'Do one small thing toward that shift today.'] },
-    { word: 'Benevolent',  description: 'Benevolent is the quiet warmth you extend to the world, without condition.',     steps: ['Offer something kind to a stranger today.', 'Notice your impulse to judge and replace it with curiosity.', 'Practice this three times before the day ends.'] },
-    { word: 'Buoyant',     description: 'Buoyant is the ability to rise back to the surface, every single time.',         steps: ['Recall a time you recovered from something that nearly broke you.', 'Write down what carried you through.', 'Carry that forward as evidence of your strength.'] },
-    { word: 'Bodacious',   description: 'Bodacious is living boldly, loudly, and entirely on your own terms.',            steps: ['Do one thing today the smaller version of you would not dare to.', 'Own the room — or at least your corner of it.', 'Let your presence be a gift, unapologetically.'] }
-  ],
-  C: [
-    { word: 'Compassionate', description: 'Compassionate is holding space for someone\'s pain without trying to fix it.',   steps: ['Listen to someone fully today without offering a solution.', 'Ask: what do you need from me right now?', 'Honour whatever their answer is.'] },
-    { word: 'Courageous',    description: 'Courageous is walking forward while the fear is still present.',                 steps: ['Identify one fear that is keeping you small.', 'Ask: what is the worst realistic outcome?', 'Act as if the answer is survivable — because it is.'] },
-    { word: 'Creative',      description: 'Creative is the willingness to make something where nothing existed before.',    steps: ['Give yourself ten minutes to create with no purpose or outcome.', 'Let it be messy, incomplete, just yours.', 'Notice what it feels like to make without performing.'] },
-    { word: 'Connected',     description: 'Connected is the feeling that you belong, both to yourself and to others.',     steps: ['Reach out to one person you have been meaning to contact.', 'Be fully present — no screens — in one conversation today.', 'Notice what shifts when you are truly seen.'] },
-    { word: 'Clear',         description: 'Clear is knowing what you want and finding the courage to say so.',             steps: ['Write one thing you want that you have not said out loud.', 'Say it out loud now — to yourself.', 'Take one action that moves toward it.'] }
-  ],
-  D: [
-    { word: 'Devoted',     description: 'Devoted is showing up for what matters, especially when it is inconvenient.',    steps: ['Name one commitment you have been giving less than it deserves.', 'Give it your full presence for thirty minutes today.', 'Let that be enough for now.'] },
-    { word: 'Determined',  description: 'Determined is the part of you that keeps going when logic says stop.',           steps: ['Revisit one goal you have quietly given up on.', 'Ask: is it truly finished, or just uncomfortable?', 'Take one step forward to find out.'] },
-    { word: 'Dignified',   description: 'Dignified is carrying yourself as though you have always been worthy.',          steps: ['Notice one way you are shrinking yourself today.', 'Stand taller — physically and emotionally — in that moment.', 'Speak to yourself the way you would speak to someone you deeply respect.'] },
-    { word: 'Delightful',  description: 'Delightful is radiating joy so freely that others catch it without trying.',     steps: ['Laugh at something small today.', 'Share something that made you smile with someone else.', 'Let pleasure be enough reason to do something today.'] },
-    { word: 'Driven',      description: 'Driven is being pulled by purpose rather than pushed by fear.',                  steps: ['Name your deepest why behind your biggest goal.', 'Write it somewhere you will see it every day.', 'Let that why guide your next three decisions.'] }
-  ],
-  E: [
-    { word: 'Empowered',    description: 'Empowered is reclaiming the authority over your own story.',                   steps: ['Identify one place where you have been giving your power away.', 'Make one decision today that is entirely yours.', 'Notice how that feels in your body.'] },
-    { word: 'Enthusiastic', description: 'Enthusiastic is letting what lights you up actually light you up.',             steps: ['Name one thing you are genuinely excited about right now.', 'Give it more of your energy today, not less.', 'Share that excitement with someone — it is contagious.'] },
-    { word: 'Earnest',      description: 'Earnest is meaning every word you say and every promise you make.',             steps: ['Think of one commitment you have made that needs honouring.', 'Follow through on it today, without compromise.', 'Notice how integrity feels from the inside.'] },
-    { word: 'Expansive',    description: 'Expansive is the willingness to grow beyond what currently feels possible.',   steps: ['Identify one belief that is keeping you contained.', 'Ask: what if that belief were simply wrong?', 'Spend five minutes imagining life without that limitation.'] },
-    { word: 'Evolving',     description: 'Evolving is proof that who you are today is not a ceiling.',                   steps: ['Write down one way you have changed in the last year.', 'Celebrate that change — it took courage.', 'Ask: what would the next version of me do differently?'] }
-  ],
-  F: [
-    { word: 'Fearless',   description: 'Fearless is not the absence of fear — it is the refusal to let it decide.',    steps: ['Name one thing fear is currently deciding for you.', 'Ask what you would do if you knew it would work out.', 'Do that thing, or one step toward it, today.'] },
-    { word: 'Forgiving',  description: 'Forgiving is setting down a weight you were never meant to carry forever.',    steps: ['Name one resentment you are still holding.', 'Ask: what would it cost me to let this go?', 'Write a letter of release — you don\'t have to send it.'] },
-    { word: 'Free',       description: 'Free is the version of you that lives without needing anyone\'s permission.',  steps: ['Name one thing you have been waiting for permission to do.', 'Grant yourself that permission now, in writing.', 'Act on it before the day ends.'] },
-    { word: 'Fulfilled',  description: 'Fulfilled is knowing that what you do matters, and that you matter too.',      steps: ['Name three ways you contributed positively to someone\'s life this week.', 'Sit with that — it is enough.', 'Ask: what would feel more fulfilling, starting tomorrow?'] },
-    { word: 'Faithful',   description: 'Faithful is trusting the process even when you cannot see the outcome.',       steps: ['Identify one area where you demand certainty before acting.', 'Take one step forward on faith alone.', 'Record what happens so you can look back on it.'] }
-  ],
-  G: [
-    { word: 'Graceful',   description: 'Graceful is responding to difficulty without losing your elegance.',          steps: ['Notice one situation where you are reacting rather than responding.', 'Pause before your next response — just one breath.', 'Choose the version of yourself you are most proud of.'] },
-    { word: 'Generous',   description: 'Generous is giving from your fullness, not from your fear of being liked.',   steps: ['Give something today without announcing it.', 'Notice the difference between giving freely and giving to be seen.', 'Choose the quiet kind.'] },
-    { word: 'Grateful',   description: 'Grateful is turning what you have into enough.',                              steps: ['Write five things you are grateful for before you check your phone.', 'Tell one person today why you appreciate them.', 'End the day by noting one good thing that happened.'] },
-    { word: 'Grounded',   description: 'Grounded is being fully present in your body while the world spins.',        steps: ['Take ten deep breaths before making any decision today.', 'Step outside and feel the ground beneath your feet.', 'Name five things you can see, four you can hear, three you can touch.'] },
-    { word: 'Glowing',    description: 'Glowing is the radiance that comes from living in alignment.',               steps: ['Notice what drains your glow and name it honestly.', 'Reduce your exposure to that thing by just ten percent today.', 'Then notice what naturally begins to shine instead.'] }
-  ],
-  H: [
-    { word: 'Healing',  description: 'Healing is not linear — but it is always happening if you allow it.',        steps: ['Acknowledge one wound you have been pretending is not there.', 'Give it one act of care today — rest, a conversation, a journal entry.', 'Trust the process even when progress is invisible.'] },
-    { word: 'Hopeful',  description: 'Hopeful is choosing to believe in a future that hasn\'t arrived yet.',       steps: ['Write the best possible version of something you are uncertain about.', 'Let that version feel real for five minutes.', 'Take one action that moves toward it.'] },
-    { word: 'Humble',   description: 'Humble is the strength to lead with curiosity rather than certainty.',       steps: ['Ask someone a genuine question today and truly listen.', 'Admit one thing you don\'t know and sit with the discomfort.', 'Let someone else be right today without making it smaller.'] },
-    { word: 'Honest',   description: 'Honest is the foundation every real relationship is built on.',              steps: ['Name one thing you have been avoiding saying to yourself.', 'Write it down and look at it clearly.', 'Decide what you will do with that truth.'] },
-    { word: 'Harmonic', description: 'Harmonic is when every part of your life is playing in tune.',               steps: ['Notice which areas of your life feel discordant right now.', 'Ask what one small change would bring more harmony.', 'Make that change today.'] }
-  ],
-  I: [
-    { word: 'Inspired',     description: 'Inspired is the feeling that something bigger than you is pulling you forward.', steps: ['Spend ten minutes with art, music or nature that moves you.', 'Write down what stirs in you.', 'Let that feeling point you toward your next step.'] },
-    { word: 'Intentional',  description: 'Intentional is doing things on purpose, for a purpose.',                        steps: ['Set a clear intention before each task today.', 'Ask: why am I doing this and what do I want from it?', 'Review at the end of the day whether you lived with intention.'] },
-    { word: 'Intuitive',    description: 'Intuitive is knowing before knowing — and learning to trust that.',             steps: ['Notice your gut response to one decision you are sitting with.', 'Write it down before logic argues with it.', 'Consider it alongside the evidence, not instead of it.'] },
-    { word: 'Invincible',   description: 'Invincible is not that nothing can hurt you — it is that nothing can stop you.', steps: ['Recall one thing you survived that you didn\'t think you would.', 'Write down what that proved about you.', 'Carry that evidence into today\'s challenges.'] },
-    { word: 'Inclusive',    description: 'Inclusive is making room at the table for every kind of person.',               steps: ['Notice who is being left out in a space you are in.', 'Find one way to make them feel seen.', 'Ask yourself: what am I not hearing that I should be?'] }
-  ],
-  J: [
-    { word: 'Joyful',    description: 'Joyful is a state you choose, not a circumstance you wait for.',              steps: ['Do one thing today purely because it brings you joy.', 'Notice the difference between pleasure and deep satisfaction.', 'Seek more of the latter.'] },
-    { word: 'Jubilant',  description: 'Jubilant is celebrating without needing a reason grand enough.',              steps: ['Celebrate one small win from this week.', 'Do it out loud, even just to yourself.', 'Let celebration become a daily practice, not a reward.'] },
-    { word: 'Just',      description: 'Just is the quiet courage to do what is right when it is inconvenient.',      steps: ['Notice one place where fairness or truth is being compromised.', 'Ask what doing the right thing would look like here.', 'Choose that, even if it costs you something.'] }
-  ],
-  K: [
-    { word: 'Kind',         description: 'Kind is the most powerful force in the world, often underestimated.',         steps: ['Perform one act of kindness today that no one will see.', 'Direct that same kindness toward yourself.', 'Notice how kindness multiplies when it starts within.'] },
-    { word: 'Knowing',      description: 'Knowing is the deep self-awareness that keeps you anchored.',                 steps: ['Spend ten minutes in silence today — no input, no output.', 'Notice what arises when the noise falls away.', 'Write down one thing you know about yourself that no one else does.'] },
-    { word: 'Kindhearted',  description: 'Kindhearted is leading with warmth as a philosophy, not just a gesture.',     steps: ['Assume the best of someone\'s motives today before assuming the worst.', 'Speak about someone who has hurt you with one neutral statement.', 'Extend to yourself the same understanding you give to others.'] }
-  ],
-  L: [
-    { word: 'Loving',       description: 'Loving is giving the best of yourself, freely and without condition.',       steps: ['Tell one person you love them and mean every word.', 'Show love through action, not just words, today.', 'Direct some of that love unconditionally toward yourself.'] },
-    { word: 'Luminous',     description: 'Luminous is the quiet brilliance you carry that lights up every room.',      steps: ['Notice the moments today when you feel most alive.', 'Give more of your time to those moments.', 'Let your light be visible — you do not need to dim it for anyone.'] },
-    { word: 'Liberated',    description: 'Liberated is the moment you stop needing things to be different than they are.', steps: ['Identify one thing you are currently resisting.', 'Try accepting it fully for just five minutes.', 'Notice what becomes available when resistance disappears.'] },
-    { word: 'Loyal',        description: 'Loyal is showing up for people when it would be easier not to.',             steps: ['Think of someone who needs you right now.', 'Reach out, without waiting for them to ask.', 'Be the kind of friend you would want to have.'] },
-    { word: 'Lighthearted', description: 'Lighthearted is taking life seriously enough — but not one bit more.',       steps: ['Find something to laugh at today, starting with yourself.', 'Solve one problem with playfulness instead of pressure.', 'Notice how much lighter things become when you stop gripping them.'] }
-  ],
-  M: [
-    { word: 'Mindful',      description: 'Mindful is bringing your full attention to this moment, right now.',        steps: ['Put your phone down for one full hour today.', 'Notice five things around you that you usually ignore.', 'Do one ordinary thing with extraordinary attention.'] },
-    { word: 'Magnificent',  description: 'Magnificent is you — in the full expression of your potential.',            steps: ['Write down five ways you are magnificent that you usually dismiss.', 'Read them aloud.', 'Believe them as much as you believe your limitations.'] },
-    { word: 'Magnetic',     description: 'Magnetic is the energy you emit when you are fully at home in yourself.',   steps: ['Notice the version of yourself people are most drawn to.', 'Ask what you are doing differently in those moments.', 'Choose to embody that more often, on purpose.'] },
-    { word: 'Merciful',     description: 'Merciful is giving grace to people — and to yourself — who don\'t yet deserve it.', steps: ['Think of someone you have been judging harshly.', 'Ask what pain or fear might be driving their behaviour.', 'Offer them one silent act of mercy today.'] }
-  ],
-  N: [
-    { word: 'Nourishing', description: 'Nourishing is feeding yourself well — in body, mind and spirit.',           steps: ['Identify one thing that truly nourishes you that you have been neglecting.', 'Schedule it in today.', 'Protect it like the necessity it is.'] },
-    { word: 'Noble',      description: 'Noble is acting with honour even when no one is watching.',                  steps: ['Do one thing today that you would be proud of if everyone could see it.', 'Refuse to participate in gossip, even once.', 'Hold your standards even when others lower theirs.'] },
-    { word: 'Natural',    description: 'Natural is the ease of being fully yourself without performance.',           steps: ['Notice one way you are performing rather than simply being.', 'Drop that performance in one interaction today.', 'Notice how much less energy life takes when you stop pretending.'] }
-  ],
-  O: [
-    { word: 'Open',        description: 'Open is the willingness to receive what life is actually offering.',        steps: ['Notice one way you are currently closed — to love, to change, to help.', 'Ask what it would take to open just slightly.', 'Try it for one day.'] },
-    { word: 'Optimistic',  description: 'Optimistic is training yourself to find the path through, not the wall.',  steps: ['For every problem you name today, find one possible solution.', 'Notice the physical difference between hope and worry.', 'Choose hope, consciously, at least three times today.'] },
-    { word: 'Overflowing', description: 'Overflowing is what happens when you finally stop rationing your joy.',    steps: ['Name one area of life where you have been holding back.', 'Give it freely and generously today.', 'Notice what fills up when you stop holding on.'] },
-    { word: 'Outstanding', description: 'Outstanding is what you already are when you stop comparing yourself to others.', steps: ['List three things you do exceptionally well.', 'Say them out loud without softening them.', 'Spend today acting from those strengths.'] }
-  ],
-  P: [
-    { word: 'Passionate',   description: 'Passionate is bringing fire to everything that matters to you.',           steps: ['Name the one thing that makes time disappear when you are doing it.', 'Give it more space in your week.', 'Share it with someone — passion is contagious.'] },
-    { word: 'Peaceful',     description: 'Peaceful is the deep stillness you return to when everything else falls away.', steps: ['Create five minutes of complete silence today.', 'Notice what you feel when the noise stops.', 'Build that stillness into your daily routine.'] },
-    { word: 'Purposeful',   description: 'Purposeful is when every action points toward something that matters.',    steps: ['Write your purpose in one sentence.', 'Ask whether what you are doing today serves it.', 'Realign one action with that purpose before the day ends.'] },
-    { word: 'Present',      description: 'Present is the only place anything real ever happens.',                    steps: ['Notice when your mind leaves this moment today.', 'Gently return to it each time without judgment.', 'Have one conversation today where you are one hundred percent there.'] },
-    { word: 'Persevering',  description: 'Persevering is the art of continuing while still in the middle of it.',   steps: ['Name one thing you have been tempted to quit.', 'Ask why you started.', 'Take one step forward from that original reason.'] }
-  ],
-  Q: [
-    { word: 'Quiet',        description: 'Quiet is the bravest thing you can offer in a world addicted to noise.',   steps: ['Sit in silence for ten minutes today without reaching for distraction.', 'Notice what surfaces when the noise falls away.', 'Let that guide you.'] },
-    { word: 'Questioning',  description: 'Questioning is the beginning of every great discovery.',                   steps: ['Ask a question today that you are slightly afraid of the answer to.', 'Sit with the uncertainty before seeking resolution.', 'Let curiosity lead more than certainty today.'] }
-  ],
-  R: [
-    { word: 'Radiant',    description: 'Radiant is what you become when you stop hiding who you really are.',       steps: ['Let one part of yourself be visible today that you normally hold back.', 'Notice the response — it will surprise you.', 'Come back to yourself a little more fully each time.'] },
-    { word: 'Resilient',  description: 'Resilient is not about being unbreakable — it is about knowing how to mend.', steps: ['Think of one difficulty you have already come through.', 'Name what made it possible to get through it.', 'Carry that resource forward as a reminder of your strength.'] },
-    { word: 'Renewed',    description: 'Renewed is the fresh start that is always available, if you choose it.',    steps: ['Choose one thing to leave behind today — a thought, a habit, a grudge.', 'Write it down and cross it out.', 'Write what you choose instead.'] },
-    { word: 'Reverent',   description: 'Reverent is treating life — and the people in it — as the gift they are.', steps: ['Find something ordinary to treat as sacred today.', 'Be still in its presence.', 'Let awe replace the urgency for just a moment.'] }
-  ],
-  S: [
-    { word: 'Serene',    description: 'Serene is the calm at the centre of you that nothing outside can permanently disturb.', steps: ['Take ten slow, deliberate breaths before any difficult moment today.', 'Notice the gap between stimulus and response — and choose to live there.', 'Return to your breath as many times as you need to.'] },
-    { word: 'Sincere',   description: 'Sincere is meaning what you say and saying what you mean.',                            steps: ['Offer one genuine compliment today with no ulterior motive.', 'Notice when you are saying something you don\'t mean — and choose differently.', 'Let your words and your feelings point the same way.'] },
-    { word: 'Sacred',    description: 'Sacred is treating your life, your time and your love as holy.',                       steps: ['Identify one thing you are treating as disposable that deserves reverence.', 'Handle it differently today.', 'Create one small ritual that honours what matters most to you.'] },
-    { word: 'Strong',    description: 'Strong is knowing your limits and choosing to exceed them anyway.',                    steps: ['Name one area where you have been playing it safe.', 'Ask what you would do if you knew you were strong enough.', 'Act from that place today.'] },
-    { word: 'Soulful',   description: 'Soulful is when you are operating from the deepest, most alive part of you.',         steps: ['Do one thing today that feeds your soul, not just your schedule.', 'Notice the difference between doing and being.', 'Give the soulful version of yourself more room to breathe.'] }
-  ],
-  T: [
-    { word: 'Trusting',     description: 'Trusting is releasing the grip and believing things can work out.',              steps: ['Identify one thing you are trying to control that is beyond your control.', 'Write it down and consciously hand it over.', 'Focus your energy on what you can actually influence today.'] },
-    { word: 'Tender',       description: 'Tender is the soft strength that connects us to what is most human.',            steps: ['Be gentle with yourself in one moment you would usually judge yourself.', 'Offer that same tenderness to someone who seems to be struggling.', 'Notice how tenderness disarms what hardness cannot.'] },
-    { word: 'Thankful',     description: 'Thankful is the practice that turns what you have into more than enough.',       steps: ['Write down three things you are grateful for right now.', 'Go beyond the obvious — find the small, overlooked gifts.', 'Tell one person today that they matter to you.'] },
-    { word: 'Transforming', description: 'Transforming is the ongoing miracle of becoming who you were always meant to be.', steps: ['Reflect on who you were five years ago.', 'Name three ways you have grown since then.', 'Ask: what does the next transformation look like?'] }
-  ],
-  U: [
-    { word: 'Unconditional', description: 'Unconditional is love without the small print.',                              steps: ['Love someone today without needing anything in return.', 'Notice where your love is conditional and ask why.', 'Practice loving yourself with the same freedom.'] },
-    { word: 'Understanding', description: 'Understanding is the bridge between where you are and where another person is.', steps: ['Ask someone today to help you understand their perspective.', 'Resist the urge to argue or fix.', 'Let understanding be the goal — not agreement.'] },
-    { word: 'Unstoppable',   description: 'Unstoppable is what you are when your why is bigger than your doubt.',         steps: ['Write down the one reason that makes everything worth it.', 'Put it somewhere visible.', 'Let it answer every doubt that arises today.'] },
-    { word: 'Uplifting',     description: 'Uplifting is the energy that raises the room every time you enter it.',        steps: ['Enter every space today with the intention to elevate, not drain.', 'Offer one encouraging word to someone who needs it.', 'Notice how lifting others lifts you too.'] }
-  ],
-  V: [
-    { word: 'Vibrant',     description: 'Vibrant is living at full frequency, fully awake to your own life.',         steps: ['Move your body today in a way that makes you feel fully alive.', 'Eat something nourishing, wear something you love.', 'Let vitality be a conscious choice you make every morning.'] },
-    { word: 'Virtuous',    description: 'Virtuous is consistently choosing the best of who you can be.',              steps: ['Identify your top three virtues.', 'Find one place today where you can express each of them.', 'Notice that virtue becomes natural through practice.'] },
-    { word: 'Visionary',   description: 'Visionary is the ability to see what could be and believe in it before it exists.', steps: ['Write the most vivid version of your life in ten minutes.', 'Read it back as if it is already true.', 'Take one concrete step toward that vision today.'] },
-    { word: 'Vulnerable',  description: 'Vulnerable is the most courageous thing a human being can choose to be.',   steps: ['Share something true today with someone you trust.', 'Resist the urge to explain or justify it.', 'Notice that vulnerability deepens connection, not weakness.'] }
-  ],
-  W: [
-    { word: 'Warm',    description: 'Warm is the energy that makes people feel safe in your presence.',           steps: ['Greet everyone today with full eye contact and genuine warmth.', 'Ask how someone is and actually wait for the answer.', 'Notice the difference warmth makes in every exchange.'] },
-    { word: 'Wise',    description: 'Wise is what experience becomes when you actually let yourself learn from it.', steps: ['Reflect on one hard lesson from the last year.', 'Write down what it taught you.', 'Apply that wisdom to one decision you are facing right now.'] },
-    { word: 'Whole',   description: 'Whole is the truth of you — including every part you have tried to hide.',  steps: ['Name one part of yourself you have been rejecting.', 'Offer it compassion instead of judgment today.', 'Ask what gift that part of you might carry.'] },
-    { word: 'Worthy',  description: 'Worthy is not something you earn — it is something you are.',               steps: ['Say out loud: I am worthy of love and belonging, exactly as I am.', 'Notice your resistance to that statement.', 'Say it again. Mean it a little more each time.'] }
-  ],
-  X: [
-    { word: 'Extraordinary', description: 'Extraordinary is what ordinary becomes when you stop sleepwalking through it.', steps: ['Do one ordinary thing today with complete, extraordinary presence.', 'Notice how that changes the quality of the experience.', 'Ask: what would my life look like if I approached everything this way?'] }
-  ],
-  Y: [
-    { word: 'Yearning',  description: 'Yearning is desire with depth — a signal pointing toward what your soul wants.', steps: ['Sit with something you deeply desire without immediately reaching for it.', 'Ask: what is this yearning telling me about what I truly need?', 'Take one small step toward that need today.'] },
-    { word: 'Youthful',  description: 'Youthful is the spirit that refuses to let wonder and play grow old.',           steps: ['Do something playful today with no purpose other than fun.', 'Approach one familiar problem as if you have never encountered it before.', 'Let curiosity lead instead of experience.'] },
-    { word: 'Yielding',  description: 'Yielding is the strength to bend without breaking and the wisdom to know when.',  steps: ['Identify one position you are holding from ego rather than truth.', 'Practice flexibility — change your mind if the evidence warrants it.', 'Notice the freedom in not needing to be right.'] }
-  ],
-  Z: [
-    { word: 'Zealous',  description: 'Zealous is showing up for what you believe in with everything you have.',    steps: ['Name the one cause, person or purpose you are most passionate about.', 'Do one thing today that serves it fully.', 'Let your zeal be visible — the world needs it.'] },
-    { word: 'Zestful',  description: 'Zestful is approaching life as an adventure rather than an obligation.',     steps: ['Start the day with an intention of enthusiasm, not survival.', 'Find one thing to approach with fresh excitement today.', 'Share that energy — it is the most generous gift you can give.'] }
-  ]
-};
 
-/* ====================================================================
-   SECTION 2 — LETTER CONFIGURATION
-   ─────────────────────────────────────────────────────────────────
-   accent : Colour for this letter's pointer, glow and word title.
-            Cycles: pink → yellow → purple.
-   image  : Path to letter illustration PNG/SVG. Leave '' for fallback letter.
-            Example: 'images/letter-a.png'
-==================================================================== */
-const LETTER_CONFIG = {
-  A: { accent: '#e73879', image: '' },  B: { accent: '#fcc737', image: '' },
-  C: { accent: '#7e1891', image: '' },  D: { accent: '#e73879', image: '' },
-  E: { accent: '#fcc737', image: '' },  F: { accent: '#7e1891', image: '' },
-  G: { accent: '#e73879', image: '' },  H: { accent: '#fcc737', image: '' },
-  I: { accent: '#7e1891', image: '' },  J: { accent: '#e73879', image: '' },
-  K: { accent: '#fcc737', image: '' },  L: { accent: '#7e1891', image: '' },
-  M: { accent: '#e73879', image: '' },  N: { accent: '#fcc737', image: '' },
-  O: { accent: '#7e1891', image: '' },  P: { accent: '#e73879', image: '' },
-  Q: { accent: '#fcc737', image: '' },  R: { accent: '#7e1891', image: '' },
-  S: { accent: '#e73879', image: '' },  T: { accent: '#fcc737', image: '' },
-  U: { accent: '#7e1891', image: '' },  V: { accent: '#e73879', image: '' },
-  W: { accent: '#fcc737', image: '' },  X: { accent: '#7e1891', image: '' },
-  Y: { accent: '#e73879', image: '' },  Z: { accent: '#fcc737', image: '' }
+  B: [
+    { word: 'Brave',        description: 'Brave is doing the right thing before you feel ready.',                            steps: ['Name the thing you are avoiding.', 'Take the smallest first step.', 'Reward the action, not the outcome.'] },
+    { word: 'Brilliant',    description: 'Brilliant is the light you carry that no one else can replicate.',                 steps: ['Name one thing you do effortlessly that others find difficult.', 'Let yourself call that a gift, not a given.', 'Use it intentionally once today.'] },
+    { word: 'Balanced',     description: 'Balanced is not having it all at once — it is knowing how to return to centre.',   steps: ['Identify the area of your life most out of balance right now.', 'Name one thing you could add or remove to restore flow.', 'Do one small thing toward that shift today.'] },
+    { word: 'Beautiful',    description: 'Beautiful is what happens when you stop performing and start being.',              steps: ['Look in a mirror today without correcting anything.', 'Name one thing you genuinely like about what you see.', 'Believe yourself.'] },
+    { word: 'Bountiful',    description: 'Bountiful is giving from the overflow, not the reserve.',                          steps: ['Notice one thing you have plenty of right now — time, ideas, warmth.', 'Offer it freely to someone today.', 'Let yourself feel rich for having shared it.'] },
+    { word: 'Bold',         description: 'Bold is acting in the direction of who you are becoming.',                         steps: ['Make the move the timid version of you would not make.', 'Take up the space you actually need.', 'Let the discomfort be proof you are growing.'] },
+    { word: 'Blessed',      description: 'Blessed is the recognition that some things are simply gifts.',                    steps: ['List three good things in your life you did not earn.', 'Sit with that for a moment.', 'Tell someone you are grateful for them.'] },
+    { word: 'Big-hearted',  description: 'Big-hearted is loving people more than you need them to be different.',            steps: ['Think of one person you have been quietly judging.', 'Find one true reason to be on their side instead.', 'Act on that, even silently.'] },
+    { word: 'Believable',   description: 'Believable is doing what you said you would, again and again.',                    steps: ['Look at one promise you have been quietly letting slide.', 'Either honour it today or release it cleanly.', 'Keep your word — to yourself first.'] },
+    { word: 'Blooming',     description: 'Blooming is the slow, public unfolding of who you have always been.',              steps: ['Notice one way you have grown in the last six months.', 'Resist the urge to call it small.', 'Tell one person who knew you before.'] }
+  ],
+
+  C: [
+    { word: 'Confident',     description: 'Confident is trusting yourself to handle whatever happens next.',                  steps: ['Recall one hard thing you already got through.', 'Carry that as evidence into your next decision.', 'Act without rehearsing the worst case first.'] },
+    { word: 'Compassionate', description: 'Compassionate is holding space for someone\'s pain without trying to fix it.',    steps: ['Listen to someone fully today without offering a solution.', 'Ask: what do you need from me right now?', 'Honour whatever their answer is.'] },
+    { word: 'Courageous',    description: 'Courageous is walking forward while the fear is still present.',                  steps: ['Identify one fear that is keeping you small.', 'Ask: what is the worst realistic outcome?', 'Act as if the answer is survivable — because it is.'] },
+    { word: 'Creative',      description: 'Creative is the willingness to make something where nothing existed before.',     steps: ['Give yourself ten minutes to create with no purpose or outcome.', 'Let it be messy, incomplete, just yours.', 'Notice what it feels like to make without performing.'] },
+    { word: 'Connected',     description: 'Connected is the feeling that you belong, both to yourself and to others.',       steps: ['Reach out to one person you have been meaning to contact.', 'Be fully present — no screens — in one conversation today.', 'Notice what shifts when you are truly seen.'] },
+    { word: 'Clear',         description: 'Clear is knowing what you want and finding the courage to say so.',               steps: ['Write one thing you want that you have not said out loud.', 'Say it out loud now — to yourself.', 'Take one action that moves toward it.'] },
+    { word: 'Curious',       description: 'Curious is asking better questions instead of defending old answers.',            steps: ['Replace one judgement today with a real question.', 'Listen for the answer without preparing your response.', 'Let your mind change if it wants to.'] },
+    { word: 'Composed',      description: 'Composed is staying yourself when the room is not.',                              steps: ['Take one breath before reacting in your next charged moment.', 'Speak from after the breath, not before it.', 'Notice how much more lands when you are not loud.'] },
+    { word: 'Constant',      description: 'Constant is being the same person whether anyone is watching or not.',            steps: ['Notice one place where your private and public selves differ.', 'Ask which version is the real one.', 'Let that version show up today.'] },
+    { word: 'Considerate',   description: 'Considerate is making other people\'s lives a little easier on purpose.',         steps: ['Do one small kind thing for someone before they ask.', 'Hold a door, send a thank-you, remember a detail.', 'Do not tell them you did it.'] },
+    { word: 'Cordial',       description: 'Cordial is bringing warmth into rooms that would otherwise be cold.',             steps: ['Greet someone today as if you were genuinely pleased to see them.', 'Use their name.', 'Notice the temperature of the room change.'] }
+  ],
+
+  D: [
+    { word: 'Devoted',      description: 'Devoted is showing up for what matters, especially when it is inconvenient.',     steps: ['Name one commitment you have been giving less than it deserves.', 'Give it your full presence for thirty minutes today.', 'Let that be enough for now.'] },
+    { word: 'Determined',   description: 'Determined is the part of you that keeps going when logic says stop.',            steps: ['Revisit one goal you have quietly given up on.', 'Ask: is it truly finished, or just uncomfortable?', 'Take one step forward to find out.'] },
+    { word: 'Dignified',    description: 'Dignified is carrying yourself as though you have always been worthy.',           steps: ['Notice one way you are shrinking yourself today.', 'Stand taller — physically and emotionally — in that moment.', 'Speak to yourself the way you would speak to someone you deeply respect.'] },
+    { word: 'Delightful',   description: 'Delightful is radiating joy so freely that others catch it without trying.',      steps: ['Laugh at something small today.', 'Share something that made you smile with someone else.', 'Let pleasure be enough reason to do something today.'] },
+    { word: 'Driven',       description: 'Driven is being pulled by purpose rather than pushed by fear.',                   steps: ['Name your deepest why behind your biggest goal.', 'Write it somewhere you will see it every day.', 'Let that why guide your next three decisions.'] },
+    { word: 'Disciplined',  description: 'Disciplined is choosing what you want most over what you want now.',              steps: ['Identify the small habit that is quietly running your life.', 'Replace it once today with the one you actually want.', 'Repeat tomorrow. Then again.'] },
+    { word: 'Diverse',      description: 'Diverse is making room for ways of being that are not your own.',                 steps: ['Read or listen to one voice today from outside your usual circle.', 'Resist the urge to translate it into your own framework.', 'Let it expand what you thought was normal.'] },
+    { word: 'Discerning',   description: 'Discerning is knowing the difference between noise and signal.',                  steps: ['Look at one piece of advice you have been weighing.', 'Ask whether the person giving it actually has what you want.', 'Decide accordingly.'] },
+    { word: 'Down-to-earth', description: 'Down-to-earth is staying yourself, no matter how high the stakes get.',          steps: ['Notice one place you are starting to take yourself too seriously.', 'Make a small, honest joke about it.', 'Carry on with both feet on the floor.'] },
+    { word: 'Doting',       description: 'Doting is letting the people you love feel how much you love them.',              steps: ['Tell one person today, in detail, why they matter to you.', 'Resist the urge to soften it with a joke.', 'Let it land.'] }
+  ],
+
+  E: [
+    { word: 'Empowered',    description: 'Empowered is reclaiming the authority over your own story.',                      steps: ['Identify one place where you have been giving your power away.', 'Make one decision today that is entirely yours.', 'Notice how that feels in your body.'] },
+    { word: 'Enthusiastic', description: 'Enthusiastic is letting what lights you up actually light you up.',               steps: ['Name one thing you are genuinely excited about right now.', 'Give it more of your energy today, not less.', 'Share that excitement with someone — it is contagious.'] },
+    { word: 'Elegant',      description: 'Elegant is doing more with less, and meaning every choice.',                      steps: ['Take one thing out of your day today that is just noise.', 'Notice how much is still left.', 'Move through what remains with care.'] },
+    { word: 'Expansive',    description: 'Expansive is the willingness to grow beyond what currently feels possible.',      steps: ['Identify one belief that is keeping you contained.', 'Ask: what if that belief were simply wrong?', 'Spend five minutes imagining life without that limitation.'] },
+    { word: 'Evolving',     description: 'Evolving is proof that who you are today is not a ceiling.',                      steps: ['Write down one way you have changed in the last year.', 'Celebrate that change — it took courage.', 'Ask: what would the next version of me do differently?'] },
+    { word: 'Empathic',     description: 'Empathic is feeling alongside someone without losing yourself in it.',            steps: ['Listen to one person today as if their feeling were the most important thing in the room.', 'Reflect back what you heard, not what you would have said.', 'Stay yours afterwards.'] },
+    { word: 'Encouraging',  description: 'Encouraging is reminding people of who they already are.',                        steps: ['Tell one person today something specific they did well.', 'Tell them what it suggests about them.', 'Mean it.'] },
+    { word: 'Ethical',      description: 'Ethical is doing the right thing when no one would know if you did not.',         steps: ['Name one small thing you cut a corner on recently.', 'Put it right today, quietly.', 'Notice you can sleep better tonight.'] },
+    { word: 'Eloquent',     description: 'Eloquent is letting your words carry the shape of what you actually feel.',       steps: ['Take a moment before you speak about something important.', 'Find the truer word, not the easier one.', 'Trust people to hear it.'] },
+    { word: 'Earnest',      description: 'Earnest is meaning every word you say and every promise you make.',               steps: ['Think of one commitment you have made that needs honouring.', 'Follow through on it today, without compromise.', 'Notice how integrity feels from the inside.'] },
+    { word: 'Exquisite',    description: 'Exquisite is the care you put into things no one else will notice.',              steps: ['Pick one ordinary thing today and do it beautifully.', 'Make your bed, plate your food, finish your sentence properly.', 'Let that be a small private ceremony.'] }
+  ]
+
+  /*
+    F: [ … ],
+    G: [ … ],
+    …
+    Z: [ … ]
+    To be added when Ingrid sends the remaining lists.
+    Until then, F–Z are clickable and show a "coming soon" message.
+  */
 };
 
 /* ====================================================================
@@ -635,131 +775,134 @@ const LETTER_CONFIG = {
 (function () {
   'use strict';
 
-  /* Wheel always uses black/white alternating segments */
-  var SEG_FILL = ['#000000', '#f2f2f2'];
-  var SEG_TEXT = ['rgba(242,242,242,0.9)', 'rgba(0,0,0,0.85)'];
-
-  /* ── State ─────────────────────────────────────────────────── */
-  var curLetter = 'L';
-  var rotation  = 0;
-  var animating = false;
-  var selIdx    = -1;
-  var spinDone  = false;
-  var navOpen   = false;
-
-  var animFrom = 0, animTo = 0, animDur = 0;
-  var animStart = null, animCb = null, animRaf = null;
-
-  /* ── DOM ───────────────────────────────────────────────────── */
+  /* ── DOM refs ─────────────────────────────────────────────── */
+  var index       = document.getElementById('letter-index');
   var canvas      = document.getElementById('wheel-canvas');
   var ctx         = canvas.getContext('2d');
-  var nav         = document.getElementById('letter-nav');
-  var spinBtn     = document.getElementById('spin-btn');
-  var switchBtn   = document.getElementById('switch-btn');
-  var landedLbl   = document.getElementById('landed-label');
-  var badgeLetter = document.getElementById('badge-letter');
-  var listBadge   = document.getElementById('list-badge');
-  var imgEl       = document.getElementById('letter-image');
-  var fallback    = document.getElementById('letter-fallback');
-  var overlay     = document.getElementById('center-overlay');
   var wrapper     = document.getElementById('wheel-wrapper');
+  var centreLet   = document.getElementById('centre-letter');
+  var spinBtn     = document.getElementById('spin-btn');
+  var resetBtn    = document.getElementById('reset-btn');
+  var landed      = document.getElementById('landed');
+
+  var metaLetter  = document.getElementById('meta-letter');
+  var metaCount   = document.getElementById('meta-count');
+
   var emptyState  = document.getElementById('empty-state');
+  var comingState = document.getElementById('coming-state');
   var wordState   = document.getElementById('word-state');
   var wordTitle   = document.getElementById('word-title');
   var wordDesc    = document.getElementById('word-desc');
-  var step1El     = document.getElementById('step-1');
-  var step2El     = document.getElementById('step-2');
-  var step3El     = document.getElementById('step-3');
+  var step1       = document.getElementById('step-1');
+  var step2       = document.getElementById('step-2');
+  var step3       = document.getElementById('step-3');
 
-  /* ── Sizing ────────────────────────────────────────────────── */
-  var SIZE = 500;
+  /* ── State ────────────────────────────────────────────────── */
+  var curLetter = 'A';
+  var rotation  = 0;
+  var animating = false;
+  var animFrom = 0, animTo = 0, animStart = null, animDur = 0, animRaf = null, animCb = null;
+  var selIdx    = -1;
+  var spinDone  = false;
+  var SIZE      = 0;
+  var dpr       = Math.max(1, window.devicePixelRatio || 1);
 
-  function syncSize () {
-    var dpr  = window.devicePixelRatio || 1;
-    var cssW = wrapper.clientWidth;
-    SIZE = Math.round(cssW * dpr);
-    canvas.width  = SIZE;
-    canvas.height = SIZE;
-    var innerCss = Math.round(SIZE * 0.165 * 2 / dpr);
-    overlay.style.width  = innerCss + 'px';
-    overlay.style.height = innerCss + 'px';
-    fallback.style.fontSize = Math.round(innerCss * 0.52) + 'px';
-    draw();
-  }
-
-  /* ── Nav ───────────────────────────────────────────────────── */
-  function buildNav () {
-    Object.keys(WORDS).forEach(function (l) {
+  /* ── Build alphabet index ─────────────────────────────────── */
+  function buildIndex () {
+    var letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+    letters.forEach(function (l) {
       var btn = document.createElement('button');
       btn.className = 'letter-btn';
+      btn.type = 'text';
       btn.textContent = l;
-      btn.dataset.letter = l;
+      btn.setAttribute('data-letter', l);
       btn.setAttribute('aria-label', 'Letter ' + l);
+
+      var hasWords = WORDS[l] && WORDS[l].length > 0;
+      if (hasWords) btn.classList.add('has-content');
+      else          btn.classList.add('empty');
+
       btn.addEventListener('click', function () { selectLetter(l); });
-      nav.appendChild(btn);
+      index.appendChild(btn);
     });
   }
 
-  /* ── Select letter ─────────────────────────────────────────── */
+  /* ── Letter selection ─────────────────────────────────────── */
   function selectLetter (l) {
-    if (!WORDS[l]) return;
+    if (animating) return;
     curLetter = l;
+    rotation  = 0;
     selIdx    = -1;
     spinDone  = false;
 
-    var accent = (LETTER_CONFIG[l] || {}).accent || '#e73879';
-    setAccent(accent);
+    /* Update accent CSS var so buttons + word colour adopt the letter's hue */
+    var accent = LETTER_ACCENT[l] || '#e73879';
+    document.documentElement.style.setProperty('--accent', accent);
 
-    badgeLetter.textContent = l;
-    listBadge.textContent   = l + ' List';
-
-    var cfg = LETTER_CONFIG[l] || {};
-    if (cfg.image) {
-      imgEl.classList.remove('visible');
-      imgEl.src     = cfg.image;
-      imgEl.onload  = function () { imgEl.classList.add('visible'); };
-      imgEl.onerror = function () { imgEl.classList.remove('visible'); resetFallback(l); };
-      fallback.textContent = '';
-    } else {
-      imgEl.src = '';
-      imgEl.classList.remove('visible');
-      resetFallback(l);
-    }
-
-    document.querySelectorAll('.letter-btn').forEach(function (b) {
-      b.classList.toggle('active', b.dataset.letter === l);
+    /* Index state */
+    Array.prototype.forEach.call(index.children, function (btn) {
+      btn.classList.toggle('active', btn.getAttribute('data-letter') === l);
     });
 
-    hideWordState();
-    beginSpin(rotation + Math.PI * 2 * 1.8, 1300, null);
+    /* Centre letter */
+    centreLet.textContent = l;
+    centreLet.style.animation = 'none';
+    /* re-trigger */ void centreLet.offsetWidth;
+    centreLet.style.animation = 'letterIn 0.55s cubic-bezier(0.22,1,0.36,1) both';
+
+    /* Panel meta */
+    metaLetter.textContent = l;
+    var entries = WORDS[l] || [];
+    metaCount.textContent = entries.length
+      ? entries.length + (entries.length === 1 ? ' word' : ' words')
+      : 'coming soon';
+
+    /* Panel state */
+    wordState.classList.remove('visible');
+    wordState.style.display = 'none';
+    landed.innerHTML = '';
+
+    if (entries.length === 0) {
+      emptyState.classList.add('hidden');
+      comingState.classList.add('visible');
+      spinBtn.disabled = true;
+    } else {
+      comingState.classList.remove('visible');
+      emptyState.classList.remove('hidden');
+      spinBtn.disabled = false;
+    }
+
+    draw();
     emit('letterChanged', { letter: l });
   }
 
-  function resetFallback (l) {
-    fallback.style.animation = 'none';
-    fallback.textContent = l;
-    requestAnimationFrame(function () { fallback.style.animation = ''; });
+  /* ── Canvas sizing (HiDPI safe) ───────────────────────────── */
+  function syncSize () {
+    var rect = wrapper.getBoundingClientRect();
+    SIZE = Math.max(280, rect.width);
+    canvas.width  = SIZE * dpr;
+    canvas.height = SIZE * dpr;
+    canvas.style.width  = SIZE + 'px';
+    canvas.style.height = SIZE + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    draw();
   }
 
-  function setAccent (color) {
-    document.documentElement.style.setProperty('--accent', color);
-    var rgb = hexToRgb(color);
-    if (rgb) {
-      document.documentElement.style.setProperty('--accent-faint',
-        'rgba(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ',0.08)');
-    }
-    spinBtn.style.background  = color;
-    spinBtn.style.borderColor = color;
-  }
-
-  /* ── Spin ──────────────────────────────────────────────────── */
+  /* ── Spin ─────────────────────────────────────────────────── */
   function doSpin () {
     if (animating) return;
-    var entries = WORDS[curLetter];
-    var n       = entries.length;
-    var rnd     = Math.floor(Math.random() * n);
-    selIdx      = rnd;
-    var target  = computeTarget(rnd, n, rotation, 4 + Math.random() * 2);
+    var entries = WORDS[curLetter] || [];
+    if (entries.length === 0) return;
+
+    var rnd = Math.floor(Math.random() * entries.length);
+    selIdx  = rnd;
+    spinDone = false;
+    wordState.classList.remove('visible');
+    wordState.style.display = 'none';
+    emptyState.classList.add('hidden');
+    landed.innerHTML = '';
+
+    var target = computeTarget(rnd, entries.length, rotation, 5 + Math.random() * 2);
     spinBtn.disabled = true;
     beginSpin(target, 4400, function () {
       spinBtn.disabled = false;
@@ -770,13 +913,13 @@ const LETTER_CONFIG = {
 
   function computeTarget (wordIdx, n, curRot, minSpins) {
     var seg  = (2 * Math.PI) / n;
+    /* Pointer at top (-PI/2). Land midpoint of segment under pointer. */
     var base = -Math.PI / 2 - wordIdx * seg - seg / 2;
     var min  = curRot + minSpins * 2 * Math.PI;
     var k    = Math.ceil((min - base) / (2 * Math.PI));
     return base + k * 2 * Math.PI;
   }
 
-  /* ── Animation ─────────────────────────────────────────────── */
   function beginSpin (to, dur, cb) {
     if (animRaf) cancelAnimationFrame(animRaf);
     animating = true;
@@ -790,7 +933,7 @@ const LETTER_CONFIG = {
 
   function tick (ts) {
     if (!animStart) animStart = ts;
-    var t    = Math.min((ts - animStart) / animDur, 1);
+    var t = Math.min((ts - animStart) / animDur, 1);
     rotation = animFrom + (animTo - animFrom) * easeOutQuart(t);
     draw();
     if (t < 1) {
@@ -806,128 +949,185 @@ const LETTER_CONFIG = {
 
   function easeOutQuart (t) { return 1 - Math.pow(1 - t, 4); }
 
-  /* ── Show word in panel ─────────────────────────────────────── */
+  /* ── Show / hide word ─────────────────────────────────────── */
   function showWord (entry) {
     wordTitle.textContent = entry.word;
     wordDesc.textContent  = entry.description;
-    step1El.textContent   = entry.steps[0] || '';
-    step2El.textContent   = entry.steps[1] || '';
-    step3El.textContent   = entry.steps[2] || '';
-    landedLbl.innerHTML   = 'Landed on: <span>' + entry.word + '</span>';
+    step1.textContent     = entry.steps[0] || '';
+    step2.textContent     = entry.steps[1] || '';
+    step3.textContent     = entry.steps[2] || '';
+    landed.innerHTML      = 'Your word is <strong>' + entry.word + '</strong>';
 
     emptyState.classList.add('hidden');
-    wordState.style.display = 'flex';
+    comingState.classList.remove('visible');
+    wordState.style.display = 'block';
     requestAnimationFrame(function () {
       requestAnimationFrame(function () { wordState.classList.add('visible'); });
     });
     emit('wordSelected', { letter: curLetter, word: entry.word });
   }
 
-  function hideWordState () {
+  function resetPanel () {
+    rotation = 0;
+    selIdx = -1;
+    spinDone = false;
     wordState.classList.remove('visible');
     wordState.style.display = 'none';
-    emptyState.classList.remove('hidden');
-    landedLbl.innerHTML = '';
+    var hasWords = WORDS[curLetter] && WORDS[curLetter].length > 0;
+    if (hasWords) emptyState.classList.remove('hidden');
+    landed.innerHTML = '';
+    draw();
   }
 
-  /* ── Pointer word index ────────────────────────────────────── */
+  /* ── Word index under pointer ─────────────────────────────── */
   function wordAtPointer (n, seg) {
     var raw = ((-Math.PI / 2) - rotation) / seg;
     return ((Math.floor(raw) % n) + n) % n;
   }
 
-  /* ── Draw ───────────────────────────────────────────────────── */
+  /* ── Draw the wheel ───────────────────────────────────────── */
   function draw () {
+    if (SIZE === 0) return;
     ctx.clearRect(0, 0, SIZE, SIZE);
 
-    var cx     = SIZE / 2;
-    var cy     = SIZE / 2;
-    var outerR = SIZE * 0.455;
-    var innerR = SIZE * 0.165;
+    var cx = SIZE / 2;
+    var cy = SIZE / 2;
+    var outerR = SIZE * 0.485;
+    var ringR  = SIZE * 0.46;
+    var innerR = SIZE * 0.18;
 
     var entries = WORDS[curLetter] || [];
-    var n       = entries.length;
-    if (n === 0) return;
+    var n = entries.length;
+    var accent = LETTER_ACCENT[curLetter] || '#e73879';
 
-    var seg    = (2 * Math.PI) / n;
-    var atPtr  = wordAtPointer(n, seg);
-    var accent = (LETTER_CONFIG[curLetter] || {}).accent || '#e73879';
+    /* Background disc — soft warm wash so empty wheels still feel alive */
+    ctx.beginPath();
+    ctx.arc(cx, cy, outerR, 0, Math.PI * 2);
+    var bgGrad = ctx.createRadialGradient(cx, cy, innerR * 0.4, cx, cy, outerR);
+    bgGrad.addColorStop(0, 'rgba(244,240,232,0.025)');
+    bgGrad.addColorStop(1, 'rgba(244,240,232,0.005)');
+    ctx.fillStyle = bgGrad;
+    ctx.fill();
+
+    if (n === 0) {
+      /* "Coming soon" wheel: gentle dashed ring + faint glyph */
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(cx, cy, ringR, 0, Math.PI * 2);
+      ctx.setLineDash([2, 10]);
+      ctx.strokeStyle = 'rgba(244,240,232,0.18)';
+      ctx.lineWidth = 1.2;
+      ctx.stroke();
+      ctx.restore();
+
+      /* Soft accent halo */
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(cx, cy, ringR + SIZE * 0.012, 0, Math.PI * 2);
+      ctx.strokeStyle = hexAlpha(accent, 0.18);
+      ctx.lineWidth = SIZE * 0.003;
+      ctx.stroke();
+      ctx.restore();
+
+      drawPointer(ctx, cx, cy, ringR, SIZE, accent, 0.35);
+      return;
+    }
+
+    var seg = (2 * Math.PI) / n;
+    var atPtr = wordAtPointer(n, seg);
+
+    /* Segment palette — rotating tints of the three ribbon colours.
+       Very low-saturation fills so words stay legible against dark background. */
+    var SEG_TINTS = [
+      'rgba(231, 56, 121, 0.18)',  /* pink   */
+      'rgba(252, 199, 55, 0.13)',  /* yellow */
+      'rgba(126, 24, 145, 0.22)'   /* purple */
+    ];
+    var SEG_HI = [
+      'rgba(231, 56, 121, 0.42)',
+      'rgba(252, 199, 55, 0.32)',
+      'rgba(126, 24, 145, 0.52)'
+    ];
 
     /* Segments */
     for (var i = 0; i < n; i++) {
-      var a0  = rotation + i * seg;
-      var a1  = a0 + seg;
+      var a0 = rotation + i * seg;
+      var a1 = a0 + seg;
       var mid = a0 + seg / 2;
-      var hi  = (i === atPtr && animating) || (spinDone && i === selIdx);
+      var tintIdx = i % 3;
+      var hi = (i === atPtr && animating) || (spinDone && i === selIdx);
 
       ctx.save();
-      if (hi) { ctx.shadowColor = accent; ctx.shadowBlur = SIZE * 0.04; }
+      if (hi) { ctx.shadowColor = accent; ctx.shadowBlur = SIZE * 0.025; }
       ctx.beginPath();
       ctx.moveTo(cx, cy);
-      ctx.arc(cx, cy, outerR, a0, a1);
+      ctx.arc(cx, cy, ringR, a0, a1);
       ctx.closePath();
-      ctx.fillStyle = hi ? lighten(SEG_FILL[i % 2], 25) : SEG_FILL[i % 2];
+      ctx.fillStyle = hi ? SEG_HI[tintIdx] : SEG_TINTS[tintIdx];
       ctx.fill();
       ctx.restore();
 
-      /* Keyline separator */
+      /* Hairline divider between segments */
       ctx.save();
       ctx.translate(cx, cy);
       ctx.rotate(a0);
       ctx.beginPath();
-      ctx.moveTo(innerR, 0);
-      ctx.lineTo(outerR, 0);
-      ctx.strokeStyle = 'rgba(204,204,204,0.2)';
-      ctx.lineWidth   = 1;
+      ctx.moveTo(innerR * 1.04, 0);
+      ctx.lineTo(ringR, 0);
+      ctx.strokeStyle = 'rgba(244,240,232,0.08)';
+      ctx.lineWidth = 0.6;
       ctx.stroke();
       ctx.restore();
 
-      drawSegText(ctx, entries[i].word, cx, cy, innerR, outerR, mid, hi, i % 2, SIZE);
+      drawSegText(ctx, entries[i].word, cx, cy, innerR, ringR, mid, hi, SIZE);
     }
 
-    /* Outer accent rings */
+    /* Outer ring(s) — match the editorial feel of the site */
     ctx.save();
     ctx.beginPath();
-    ctx.arc(cx, cy, outerR + SIZE * 0.014, 0, Math.PI * 2);
-    ctx.strokeStyle = hexAlpha(accent, 0.28);
-    ctx.lineWidth   = SIZE * 0.004;
+    ctx.arc(cx, cy, ringR, 0, Math.PI * 2);
+    ctx.strokeStyle = 'rgba(244,240,232,0.12)';
+    ctx.lineWidth = 1;
     ctx.stroke();
+
     ctx.beginPath();
-    ctx.arc(cx, cy, outerR + SIZE * 0.026, 0, Math.PI * 2);
-    ctx.strokeStyle = hexAlpha(accent, 0.08);
-    ctx.lineWidth   = SIZE * 0.003;
+    ctx.arc(cx, cy, ringR + SIZE * 0.018, 0, Math.PI * 2);
+    ctx.strokeStyle = hexAlpha(accent, 0.32);
+    ctx.lineWidth = SIZE * 0.004;
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.arc(cx, cy, ringR + SIZE * 0.032, 0, Math.PI * 2);
+    ctx.strokeStyle = hexAlpha(accent, 0.1);
+    ctx.lineWidth = SIZE * 0.002;
     ctx.stroke();
     ctx.restore();
 
-    /* Centre circle */
-    ctx.beginPath();
-    ctx.arc(cx, cy, innerR + 2, 0, Math.PI * 2);
-    ctx.fillStyle = '#000000';
-    ctx.fill();
-
+    /* Inner ring around centre letter */
+    ctx.save();
     ctx.beginPath();
     ctx.arc(cx, cy, innerR, 0, Math.PI * 2);
-    ctx.strokeStyle = hexAlpha(accent, 0.42);
-    ctx.lineWidth   = SIZE * 0.005;
+    ctx.strokeStyle = hexAlpha(accent, 0.45);
+    ctx.lineWidth = SIZE * 0.005;
     ctx.stroke();
+    ctx.restore();
 
-    drawPointer(ctx, cx, cy, outerR, SIZE, accent);
+    /* Pointer */
+    drawPointer(ctx, cx, cy, ringR, SIZE, accent, 1);
   }
 
-  function drawSegText (ctx, word, cx, cy, innerR, outerR, midAngle, hi, segIdx, SIZE) {
-    var textEdge = outerR - SIZE * 0.022;
-    var maxW     = textEdge - innerR - SIZE * 0.01;
-    var fs       = Math.min(SIZE * 0.027, 15);
+  function drawSegText (ctx, word, cx, cy, innerR, outerR, midAngle, hi, SIZE) {
+    var textEdge = outerR - SIZE * 0.028;
+    var maxW = textEdge - innerR - SIZE * 0.02;
+    var fs = Math.min(SIZE * 0.028, 16);
 
     ctx.save();
     ctx.translate(cx, cy);
     ctx.rotate(midAngle);
-    ctx.font          = (hi ? '700 ' : '400 ') + fs + "px 'PT Sans', sans-serif";
-    ctx.textAlign     = 'right';
-    ctx.textBaseline  = 'middle';
-    ctx.fillStyle     = hi ? (segIdx === 0 ? '#ffffff' : '#000000') : SEG_TEXT[segIdx];
-    ctx.shadowColor   = segIdx === 0 ? 'rgba(0,0,0,0.4)' : 'rgba(255,255,255,0.1)';
-    ctx.shadowBlur    = 3;
+    ctx.font = (hi ? '700 ' : '400 ') + fs + "px 'PT Sans', sans-serif";
+    ctx.textAlign = 'right';
+    ctx.textBaseline = 'middle';
+    ctx.fillStyle = hi ? '#f4f0e8' : 'rgba(244,240,232,0.78)';
 
     var mw = ctx.measureText(word).width;
     if (mw > maxW) {
@@ -940,49 +1140,49 @@ const LETTER_CONFIG = {
     ctx.restore();
   }
 
-  function drawPointer (ctx, cx, cy, outerR, SIZE, accent) {
-    var tipY = cy - outerR + SIZE * 0.005;
-    var pw   = SIZE * 0.025;
-    var ph   = SIZE * 0.04;
+  function drawPointer (ctx, cx, cy, outerR, SIZE, accent, opacity) {
+    var tipY = cy - outerR - SIZE * 0.006;
+    var pw = SIZE * 0.022;
+    var ph = SIZE * 0.034;
 
     ctx.save();
-    ctx.shadowColor = 'rgba(0,0,0,0.5)';
-    ctx.shadowBlur  = SIZE * 0.012;
+    ctx.globalAlpha = opacity;
+
+    /* Soft shadow */
+    ctx.shadowColor = 'rgba(0,0,0,0.6)';
+    ctx.shadowBlur = SIZE * 0.012;
+
+    /* Triangle */
     ctx.beginPath();
     ctx.moveTo(cx, tipY);
     ctx.lineTo(cx - pw, tipY - ph);
     ctx.lineTo(cx + pw, tipY - ph);
     ctx.closePath();
-    ctx.fillStyle = '#f2f2f2';
+    ctx.fillStyle = '#f4f0e8';
     ctx.fill();
 
+    /* Accent jewel above pointer */
     ctx.shadowBlur = 0;
     ctx.beginPath();
-    ctx.arc(cx, tipY - ph - SIZE * 0.006, SIZE * 0.009, 0, Math.PI * 2);
+    ctx.arc(cx, tipY - ph - SIZE * 0.012, SIZE * 0.0085, 0, Math.PI * 2);
     ctx.fillStyle = accent;
     ctx.fill();
+
     ctx.restore();
   }
 
-  /* ── Colour helpers ────────────────────────────────────────── */
+  /* ── Colour helpers ───────────────────────────────────────── */
   function hexToRgb (hex) {
     var m = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     return m ? { r: parseInt(m[1], 16), g: parseInt(m[2], 16), b: parseInt(m[3], 16) } : null;
   }
-
-  function lighten (hex, amt) {
-    var c = hexToRgb(hex);
-    if (!c) return hex;
-    return 'rgb(' + Math.min(255,c.r+amt) + ',' + Math.min(255,c.g+amt) + ',' + Math.min(255,c.b+amt) + ')';
-  }
-
   function hexAlpha (hex, a) {
     var c = hexToRgb(hex);
     if (!c) return hex;
     return 'rgba(' + c.r + ',' + c.g + ',' + c.b + ',' + a + ')';
   }
 
-  /* ── postMessage bridge ────────────────────────────────────── */
+  /* ── postMessage bridge (Squarespace iframe) ──────────────── */
   function emit (type, payload) {
     try {
       if (window.parent !== window) {
@@ -998,21 +1198,27 @@ const LETTER_CONFIG = {
     if (!d || typeof d !== 'object') return;
     if (d.type === 'selectLetter' && typeof d.letter === 'string')
       selectLetter(d.letter.trim().toUpperCase().charAt(0));
-    else if (d.type === 'spin')     doSpin();
-    else if (d.type === 'showNav')  { nav.classList.add('open');    switchBtn.classList.add('active');    navOpen = true;  }
-    else if (d.type === 'hideNav')  { nav.classList.remove('open'); switchBtn.classList.remove('active'); navOpen = false; }
+    else if (d.type === 'spin') doSpin();
   });
 
-  /* ── Switch list ───────────────────────────────────────────── */
-  switchBtn.addEventListener('click', function () {
-    navOpen = !navOpen;
-    nav.classList.toggle('open', navOpen);
-    switchBtn.classList.toggle('active', navOpen);
-  });
-
-  /* ── Init ──────────────────────────────────────────────────── */
-  buildNav();
+  /* ── Wire up controls ─────────────────────────────────────── */
   spinBtn.addEventListener('click', doSpin);
+  resetBtn.addEventListener('click', resetPanel);
+
+  /* Optional: click on canvas centre also spins */
+  canvas.addEventListener('click', function (e) {
+    var rect = canvas.getBoundingClientRect();
+    var x = e.clientX - rect.left;
+    var y = e.clientY - rect.top;
+    var dx = x - rect.width / 2;
+    var dy = y - rect.height / 2;
+    if (Math.sqrt(dx * dx + dy * dy) < rect.width * 0.18) {
+      doSpin();
+    }
+  });
+
+  /* ── Init ─────────────────────────────────────────────────── */
+  buildIndex();
 
   if (window.ResizeObserver) {
     new ResizeObserver(syncSize).observe(wrapper);
@@ -1020,8 +1226,11 @@ const LETTER_CONFIG = {
     window.addEventListener('resize', syncSize);
   }
 
-  syncSize();
-  selectLetter('L');
+  /* Tiny delay so fonts can load before first draw */
+  requestAnimationFrame(function () {
+    syncSize();
+    selectLetter('A');
+  });
 
 }());
 </script>
