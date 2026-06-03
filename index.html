@@ -53,7 +53,7 @@
     html, body {
       width: 100%;
       min-height: 100%;
-      background: transparent;
+      background: #099696;
       color: var(--paper);
       font-family: var(--font-body);
       -webkit-font-smoothing: antialiased;
@@ -204,7 +204,7 @@
       align-items: center;
       justify-content: center;
       border-radius: 50%;
-      background: radial-gradient(circle, transparent 56%, rgba(0,0,0,0) 100%);
+      background: #000000;
     }
 
     #centre-letter {
@@ -257,15 +257,6 @@
       color: var(--paper);
     }
     #spin-btn:disabled { opacity: 0.4; cursor: default; }
-
-    #reset-btn {
-      color: rgba(244, 240, 232, 0.55);
-      border-color: rgba(244, 240, 232, 0.18);
-    }
-    #reset-btn:hover {
-      color: var(--paper);
-      border-color: var(--paper);
-    }
 
     #landed {
       margin-top: 4px;
@@ -322,7 +313,7 @@
 
     /* Empty / waiting state */
     #empty-state {
-      padding: 32px 0;
+      padding: 0;
     }
     #empty-state.hidden { display: none; }
 
@@ -385,14 +376,19 @@
       display: none;
       opacity: 0;
       transform: translateY(10px);
+      background: rgba(0,0,0,0);
+      padding: 28px 32px;
+      border-radius: 4px;
       transition:
         opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
-        transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+        transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+        background 0.65s ease;
     }
     #word-state.visible {
       display: block;
       opacity: 1;
       transform: translateY(0);
+      background: rgba(0,0,0,0.88);
     }
 
     #word-eyebrow {
@@ -414,11 +410,11 @@
       font-family: var(--font-display);
       font-weight: 400;
       font-size: clamp(56px, 8vw, 96px);
-      line-height: 0.96;
+      line-height: 1;
       color: var(--accent, var(--pink));
       letter-spacing: -0.005em;
+      overflow: visible;
     }
-    #word-title .word-tail { font-style: italic; }
 
     /* ====================================================================
        RESPONSIVE
@@ -465,7 +461,6 @@
 
       <div id="controls">
         <button id="spin-btn" class="btn">Spin</button>
-        <button id="reset-btn" class="btn">Reset</button>
       </div>
 
       <div id="landed" aria-live="polite"></div>
@@ -480,13 +475,7 @@
       </div>
 
       <!-- Empty (initial) -->
-      <div id="empty-state">
-        <div id="empty-pretitle">An invitation</div>
-        <h2 id="empty-title">Spin the wheel to <em>meet your word.</em></h2>
-        <p id="empty-body">
-          Each letter holds a constellation of qualities you already carry. The wheel chooses one — the description and three small steps are yours to keep.
-        </p>
-      </div>
+      <div id="empty-state"></div>
 
       <!-- Coming soon (letters F–Z) -->
       <div id="coming-state">
@@ -542,61 +531,280 @@ const LETTER_ACCENT = {};
 ==================================================================== */
 const WORDS = {
   A: [
-    'Able','Abounding','Absorbing','Absolute','Abstract','Aboveboard','Abundant',
-    'Accepting','Acceptable','Acclaimed','Accommodating','Accomplished','Accountable',
-    'Accurate','Achievable','Acknowledged','Active','Adamant','Adaptable','Adept',
-    'Admirable','Adventurous','Affectionate','Agile','Alluring','Altruistic','Amazing',
-    'Ambitious','Amiable','Amusing','Analytical','Approachable','Appropriate','Apt',
-    'Ardent','Aristocratic','Articulate','Artistic','Ascending','Aspirational',
-    'Assertive','Assured','Astonishing','Astute','Athletic','Attainable','Attractive',
-    'Auspicious','Authentic','Authoritative','Automotive','Autonomous','Available',
-    'Avant-garde','Awarded','Aware','Awesome','A-ok'
+    "A-Ok", "Able", "Abounding", "Absorbing", "Absolute", "Abstract", "Aboveboard", "Abubble",
+    "Abundant", "Abiding", "Acceptable", "Accepting", "Accessible", "Acclaimed", "Accommodating",
+    "Accomplished", "Accordant", "Accountable", "Accurate", "Accustomed", "Achieving",
+    "Acknowledged", "Active", "Actioning", "Adamant", "Adaptable", "Adept", "Adequate", "Adjusted",
+    "Admirable", "Admired", "Adorable", "Adored", "Adroit", "Adventurous", "Advanced",
+    "Advantageous", "Aesthetic", "Affable", "Affecting", "Affectionate", "Affective", "Affirming",
+    "Affluent", "Ageless", "Agile", "Agreeable", "Aiding", "Alive", "Alluring", "Altruistic",
+    "Alacritous", "Alright", "Alternative", "Amazing", "Ambidextrous", "Ambitious", "Amenable",
+    "Amicable", "Amiable", "Amusing", "Angelic", "Appetising", "Animated", "Apt", "Appealing",
+    "Appeasing", "Appreciated", "Appreciative", "Approachable", "Appropriate", "Approving",
+    "Aristocratic", "Arousing", "Arresting", "Artful", "Articulate", "Artistic", "Arty", "Ascending",
+    "Aspiring", "Assertive", "Assiduous", "Assisting", "Assured", "Assuring", "Astonishing",
+    "Astounding", "Astute", "Athletic", "Attainable", "Attractive", "Auspicious", "Authentic",
+    "Authoritative", "Autonomous", "Available", "Avant-Garde", "Awake", "Aware", "Awesome"
   ],
 
   B: [
-    'Big Hearted','Benign','Beloved','Beneficent','Believable','Bedrock','Becoming',
-    'Beautiful','Beaming','Bankable','Bang On','Balanced','Buxom','Business Like',
-    'Busy','Bubbly','Brisk','Brightminded','Brimming','Brilliant','Brave','Bountiful',
-    'Bounteous','Boundless','Bonnie','Bonafide','Bold','Boisterous','Bodacious',
-    'Blooming','Blithe','Blissful','Blessed','Blazing','Blameless'
+    "Balanced", "Bada Bing Bada Boom", "Ballsy", "Bang On", "Bankable", "Beaming", "Beautiful",
+    "Becoming", "Bedrock", "Believable", "Beloved", "Beneficent", "Beneficial", "Benevolent",
+    "Benignant", "Best", "Big", "Big Hearted", "Blameless", "Blazing", "Blessed", "Blissful",
+    "Blithe", "Blooming", "Bodacious", "Boisterous", "Bold", "Bonafide", "Bonnie", "Boundless",
+    "Bounteous", "Bountiful", "Brainy", "Brave", "Breezy", "Bright", "Brilliant", "Brimming",
+    "Broadminded", "Brisk", "Bubbly", "Buddy", "Buoyant", "Busy", "Business Like", "Buxom"
   ],
 
   C: [
-    'Confident','Congenial','Congruous','Conscious','Connected','Conscientious',
-    'Consequential','Considerate','Consistent','Constant','Contemporary',
-    'Contemplative','Contributive','Conventional','Convincing','Committed','Comical',
-    'Comfortable','Competent','Complete','Composed','Comprehensive','Concentrated',
-    'Concise','Conclusive','Concordant','Concrete','Cooperative','Cool','Cordial',
-    'Cosmic','Courageous','Courteous','Creative','Credible','Crisp','Critical',
-    'Cultured','Curious','Cute','Cutting Edge'
+    "Calm", "Calming", "Can Do", "Candescent", "Candid", "Capable", "Canny", "Captivating",
+    "Cared For", "Careful", "Caring", "Casual", "Causative", "Celebrated", "Celestial", "Centred",
+    "Cerebral", "Certain", "Champion", "Changeless", "Charismatic", "Charitable", "Charming",
+    "Cheerful", "Cherished", "Chic", "Chirpy", "Chosen", "Choice", "Chummy", "Civilised",
+    "Clairvoyant", "Classy", "Clearheaded", "Clever", "Cogent", "Cognisant", "Coherent", "Collected",
+    "Comfortable", "Colourful", "Comforting", "Comical", "Commanding", "Commendable", "Committed",
+    "Commonsensical", "Commodious", "Communicative", "Compassionate", "Companionable", "Compatible",
+    "Compelling", "Competent", "Complete", "Complimentary", "Composed", "Comprehensive",
+    "Concentrated", "Concise", "Conclusive", "Concordant", "Concrete", "Confident", "Congenial",
+    "Congruous", "Conscious", "Connected", "Conscientious", "Consensual", "Consequential",
+    "Considerate", "Consistent", "Constant", "Constructive", "Contemporary", "Contemplative",
+    "Content", "Contributive", "Convenient", "Conversant", "Convincing", "Convivial", "Cool",
+    "Cooperative", "Coordinated", "Copacetic", "Copious", "Correct", "Cordial", "Coruscant",
+    "Cosmic", "Cosy", "Courageous", "Courteous", "Cuddly", "Creative", "Credible", "Crisp",
+    "Cultivated", "Cultured", "Curious", "Curvaceous", "Cute", "Cutting Edge"
   ],
 
   D: [
-    'Distinctive','Distinguished','Distinguishing','Diverse','Diverting','Divine',
-    'Dynamic','Dutiful','Durable','Driven','Dreamy','Down-to-earth','Doubtless',
-    'Doting','Dominating','Dominant','Doable','Dignified','Disciplined','Discerning',
-    'Discrete','Discretionate','Discriminating','Dispassionate','Distinct'
+    "Dainty", "Daring", "Darling", "Dapper", "Dashing", "Dauntless", "Dazzling", "Dear", "Debonair",
+    "Decent", "Deciding", "Decisive", "Decorous", "Dedicated", "Deep", "Defiant", "Definite", "Deft",
+    "Delectable", "Deliberate", "Delicate", "Delicious", "Delighted", "Delightful", "Deluxe",
+    "Demonstrative", "Dependable", "Deserving", "Designer", "Desirable", "Desired", "Destined",
+    "Determined", "Developed", "Developing", "Devoted", "Devotional", "Devout", "Dexterous",
+    "Diamond", "Different", "Dignified", "Dinkum", "Diligent", "Diplomatic", "Direct", "Disarming",
+    "Discerning", "Disciplined", "Discrete", "Discriminating", "Dispassionate", "Distinct",
+    "Distinctive", "Distinguished", "Distinguishing", "Diverse", "Diverting", "Divine", "Doable",
+    "Dominant", "Donating", "Doting", "Doubtless", "Down-To-Earth", "Dreamy", "Driven", "Durable",
+    "Dutiful", "Dynamic", "Dynamite"
   ],
 
   E: [
-    'Effervescent','Efficacious','Efficient','Effortless','Effortful','Effluent',
-    'Effusive','Elaborate','Elated','Electrifying','Elegant','Elemental','Elevated',
-    'Elite','Eloquent','Empathic','Empowered','Empowering','Encouraging','Endearing',
-    'Energetic','Engaging','Engineered','Enlightened','Enlivened','Enormous',
-    'Entrancing','Entrepreneurial','Environmentally conscious','Equitable','Equipped',
-    'Erudite','Essential','Esteemed','Ethical','Euphoric','Evaluated','Eventful',
-    'Everlasting','Evocative','Exacting','Exalted','Excellent','Exceptional',
-    'Exciting','Exclusive','Executive','Exemplary','Exhaustive','Exhilarating',
-    'Exotic','Experienced','Expert','Explicit','Expressive'
-  ]
+    "Eager", "Earnest", "Earthly", "Easy", "Easy-Going", "Ebullient", "Eclectic", "Economical",
+    "Edified", "Ecstatic", "Educated", "Effective", "Effectual", "Effervescent", "Efficacious",
+    "Efficient", "Effortless", "Effulgent", "Effusive", "Elaborate", "Elated", "Electrifying",
+    "Elegant", "Elemental", "Elevated", "Eligible", "Eloquent", "Embracing", "Emerging", "Eminent",
+    "Empathetic", "Employable", "Empowered", "Empowering", "Enamoured", "Enchanting", "Encouraging",
+    "Endearing", "Endorsing", "Enduring", "Enhancing", "Energetic", "Energising", "Engaging",
+    "Enhanced", "Enjoyable", "Enlightened", "Enlightening", "Enlivened", "Enlivening", "Enormous",
+    "Enough", "Enrapt", "Enthusiastic", "Enthralling", "Enriching", "Enterprising", "Entertaining",
+    "Enticing", "Entrancing", "Entrepreneurial", "Epic", "Epitome", "Equal", "Equanimous",
+    "Equitable", "Equipoised", "Equipped", "Equivalent", "Erotic", "Erudite", "Essential",
+    "Established", "Esteemed", "Eternal", "Especial", "Evaluative", "Evenhanded", "Eventful",
+    "Evident", "Ethical", "Euphoric", "Evocative", "Exact", "Exalted", "Exalting", "Exceeding",
+    "Excellent", "Excelling", "Exceptional", "Executive", "Exhilarating", "Exotic", "Expensive",
+    "Expectant", "Expeditious", "Expansive", "Explicit", "Explorative", "Experienced", "Expressive",
+    "Exuberant", "Exquisite", "Extraordinary", "Extensive", "Exultant", "Eye-Catching"
+  ],
 
-  /*
-    F: [ … ],
-    G: [ … ],
-    …
-    Z: [ … ]
-    To be added when Ingrid sends the remaining lists.
-  */
+  F: [
+    "Fab", "Fabulous", "Facile", "Factual", "Facilitative", "Fair", "Faithful", "Famed", "Familiar",
+    "Famous", "Fancy", "Fantabulous", "Fantastic", "Farsighted", "Fascinating", "Fashionable",
+    "Fast", "Faultless", "Favourable", "Favoured", "Favourite", "Fearless", "Feasible", "Fecund",
+    "Feeling", "Felicitous", "Fertile", "Fervent", "Fervid", "Festive", "Fetching", "Fiery", "Fine",
+    "Finest", "Firm", "First Class", "First Rate", "Fit", "Fitting", "Flamboyant", "Flash",
+    "Flavourful", "Flawless", "Flexible", "Flourishing", "Fluent", "Flying", "Focused", "Fond",
+    "Forbearing", "Forceful", "For Real", "Foremost", "Foresighted", "Forgiving", "Formidable",
+    "Forthcoming", "Forthright", "Fortified", "Fortuitous", "Fortunate", "Forward",
+    "Forward Thinking", "Foundational", "Four Star", "Foxy", "Fragrant", "Frank", "Free", "Fresh",
+    "Friendly", "Frisky", "Frolicsome", "Fruitful", "Fundamental", "Fulfilled", "Fulfilling", "Fun",
+    "Funny", "Futuristic"
+  ],
+
+  G: [
+    "Game", "Gallant", "Galore", "Galvanise", "Gamesome", "Game-Changer", "Gem", "Generous",
+    "Genial", "Genteel", "Gentle", "Genuine", "Giddy", "Gifted", "Giving", "Glad", "Glamorous",
+    "Gleaming", "Gleeful", "Glimmering", "Glistening", "Glittering", "Glorious", "Glowing",
+    "Goal Orientated", "Go-Getter", "Godly", "Golden", "Good", "Good Humoured", "Good Natured",
+    "Good Hearted", "Gorgeous", "Graceful", "Gracious", "Grand", "Grateful", "Gratified",
+    "Gratifying", "Great", "Greatest", "Great Hearted", "Gregarious", "Groovy", "Grounded",
+    "Growing", "Guaranteed", "Guided", "Guiding", "Guileless", "Guiltless", "Guilt Free",
+    "Gumptious", "Gutsy"
+  ],
+
+  H: [
+    "Hale", "Hallowed", "Handy", "Happening", "Happy", "Happy-Go-Lucky", "Hard Worker", "Harmonious",
+    "Harmless", "Healing", "Hearty", "Helpful", "Healthful", "Heartfelt", "Healthy", "Heavenly",
+    "Heedful", "Heroic", "High Class", "High Minded", "High-Powered", "High-Spirited", "Highest",
+    "Highly Regarded", "Highly Valued", "Hilarious", "Holy", "Homely", "Honest", "Honourable",
+    "Hospitable", "Hot", "Hotshot", "Huggy", "Huggable", "Humane", "Humanitarian", "Humble",
+    "Humorous", "Hygienic", "Hypnotic"
+  ],
+
+  I: [
+    "Ideal", "Idealistic", "Idolised", "Idiosyncratic", "Illimitable", "Illuminated", "Illuminating",
+    "Illustrious", "Imaginative", "Immaculate", "Immeasurable", "Immediate", "Immense", "Immortal",
+    "Immune", "Impartial", "Impassioned", "Impeccable", "Imperturbable", "Impish", "Important",
+    "Improving", "Impressive", "Improvisational", "Incisive", "Included", "Inclusive",
+    "Incomparable", "Incontestable", "Incontrovertible", "Incredible", "Indefatigable",
+    "Independent", "Indestructible", "Indispensable", "Indisputable", "Individual",
+    "Individualistic", "Indivisible", "Indomitable", "Industrious", "Inherent", "Inexhaustible",
+    "Infallible", "Infinite", "Influential", "Informative", "Informed", "Ingenious", "Inimitable",
+    "Innovative", "Innocent", "Innocuous", "Inquisitive", "Insightful", "Inspired", "Inspiring",
+    "Instantaneous", "Instinctive", "Instructive", "Instrumental", "Integrated", "Intellectual",
+    "Intelligent", "Intense", "Intent", "Interactive", "Interconnected", "Interested", "Interesting",
+    "Intertwined", "Intimate", "Intoxicating", "Intrepid", "Intriguing", "Intuitive", "Invaluable",
+    "Inventive", "Invigorated", "Invigorating", "Invincible", "Inviolable", "Inviting",
+    "Irrefutable", "Irreplaceable", "Irrepressible", "Irreproachable", "Irresistible"
+  ],
+
+  J: [
+    "Jamming", "Jampacked", "Jaunty", "Jazzed", "Jazzy", "Jestful", "Jesting", "Jewelled", "Jocular",
+    "Jolly", "Jovial", "Joyful", "Joyous", "Jubilant", "Judicious", "Juicy", "Just", "Justified"
+  ],
+
+  K: [
+    "Keen", "Kempt", "Key", "Kind", "Kindhearted", "Kindly", "Kindred", "Kinetic", "Kingly",
+    "Kissable", "Knowing", "Knowledgeable", "Kooky"
+  ],
+
+  L: [
+    "Ladylike", "Laid-Back", "Large", "Largesse", "Lasting", "Laudable", "Laughing", "Lavish",
+    "Law-Abiding", "Lawful", "Leading", "Leading Edge", "Learned", "Legal", "Legendary",
+    "Legitimate", "Legible", "Leisured", "Leisurely", "Lettered", "Levelheaded", "Liberal",
+    "Liberating", "Liberated", "Lighthearted", "Like-Minded", "Liked", "Likely", "Limber",
+    "Lionhearted", "Literate", "Lithe", "Lithesome", "Lively", "Logical", "Long-Established",
+    "Long-Standing", "Lovable", "Loved", "Lovely", "Loving", "Loyal", "Lucent", "Lucid", "Lucky",
+    "Lucrative", "Luminous", "Luscious", "Lush", "Lustrous", "Lusty", "Luxuriant", "Luxurious"
+  ],
+
+  M: [
+    "Made", "Magical", "Magnanimous", "Magnetic", "Magnificent", "Main", "Majestic", "Major",
+    "Malleable", "Manageable", "Manifesting", "Mannerly", "Marked", "Marvel", "Marvellous",
+    "Masculine", "Master", "Masterful", "Masterly", "Masterpiece", "Matchless", "Maternal",
+    "Matter-Of-Fact", "Mature", "Maturing", "Maximal", "Meaningful", "Meditative", "Meek",
+    "Meliorist", "Mellow", "Melodious", "Memorable", "Merciful", "Meritorious", "Merry",
+    "Mesmerising", "Metaphysical", "Meteoric", "Methodical", "Meticulous", "Mettlesome", "Mighty",
+    "Mindful", "Miraculous", "Mirthful", "Model", "Modern", "Modernistic", "Modest", "Momentous",
+    "Moneyed", "Morphing", "Motivated", "Motivating", "Motivational", "Mouth-Watering", "Moving",
+    "Multidimensional", "Multi-Disciplined", "Multifaceted", "Musical", "Mutual", "Munificent"
+  ],
+
+  N: [
+    "Native", "Natural", "Natty", "Neat", "Necessary", "Needed", "Neighbourly", "Neoteric",
+    "Nestling", "Neutral", "Newborn", "Nice", "Nifty", "Nimble", "Nimble-Witted", "Nippy", "Noble",
+    "Noetic", "Nonchalant", "Non-Violent", "Normal", "Notable", "Noteworthy", "Noticeable",
+    "Nourished", "Nourishing", "Number One", "Nurturing"
+  ],
+
+  O: [
+    "Objective", "Obliging", "Observant", "Obtainable", "Open", "Openhanded", "Open Hearted",
+    "Open Minded", "Operative", "Opportune", "Optimal", "Optimistic", "Optimum", "Opulent",
+    "Orderly", "Organic", "Organised", "Oriented", "Original", "Ornamental", "Outgoing",
+    "Outlasting", "Outrageous", "Outstanding", "Overflowing", "Overjoyed", "Overt", "Owning"
+  ],
+
+  P: [
+    "Palatable", "Pally", "Palpable", "Pampered", "Par Excellence", "Paragon", "Paramount",
+    "Participating", "Participative", "Passionate", "Patient", "Peaceable", "Peaceful", "Peachy",
+    "Peerless", "Penetrating", "Peppy", "Perceptive", "Perfect", "Perky", "Permanent", "Permissive",
+    "Perseverant", "Persevering", "Persistent", "Personable", "Perspicacious", "Perspicuous",
+    "Persuasive", "Pertinent", "Petite", "Phenomenal", "Philosophical", "Philanthropic",
+    "Picturesque", "Pioneering", "Piquant", "Pithy", "Pivotal", "Placid", "Plausible", "Playful",
+    "Pleasant", "Pleasurable", "Plenteous", "Plentiful", "Plenty", "Pliable", "Plucky", "Poetic",
+    "Poignant", "Poised", "Polished", "Polite", "Popular", "Posh", "Positive", "Possible",
+    "Powerful", "Potent", "Potential", "Practicable", "Practical", "Pragmatic", "Praiseworthy",
+    "Prayerful", "Precious", "Precise", "Predominant", "Pre-Eminent", "Preferable", "Preferred",
+    "Premier", "Premium", "Prepared", "Present", "Prestigious", "Prevailing", "Primal", "Primary",
+    "Prime", "Primed", "Principal", "Principled", "Privileged", "Prized", "Proactive", "Prodigious",
+    "Productive", "Proficient", "Profitable", "Profound", "Profuse", "Progressive", "Prolific",
+    "Prominent", "Promising", "Prompt", "Proper", "Prophetic", "Propitious", "Prosperous",
+    "Protective", "Proud", "Provocative", "Prudent", "Purposeful"
+  ],
+
+  Q: [
+    "Quaint", "Qualified", "Qualitative", "Quality", "Quantifiable", "Queenly", "Questioning",
+    "Quick", "Quick-Witted", "Quiet", "Quintessential", "Quirky", "Quixotic", "Quotable"
+  ],
+
+  R: [
+    "Radiant", "Rambunctious", "Rapid", "Rapturous", "Rational", "Ravishing", "Razor-Sharp",
+    "Reachable", "Ready", "Real", "Realistic", "Reasonable", "Reassuring", "Receptive", "Reciprocal",
+    "Recognisable", "Recognised", "Recommendable", "Recuperative", "Refined", "Reflective",
+    "Refreshing", "Refulgent", "Rejoicing", "Relaxed", "Relevant", "Reliable", "Remarkable",
+    "Renewing", "Renowned", "Reputable", "Resilient", "Resolute", "Resolved", "Resounding",
+    "Resourceful", "Respectable", "Respectful", "Resplendent", "Responsible", "Responsive",
+    "Restful", "Restorative", "Revered", "Reverent", "Revitalising", "Revolutionary", "Rewarding",
+    "Rhapsodic", "Rich", "Righteous", "Rightful", "Ripe", "Robust", "Romantic", "Rooted", "Rosy",
+    "Rounded", "Rollicking", "Rousing", "Rugged"
+  ],
+
+  S: [
+    "Sacred", "Sacrosanct", "Safe", "Sagacious", "Sage", "Saintly", "Salient", "Salubrious",
+    "Salutary", "Sanctified", "Sanctioned", "Sanguine", "Sapient", "Sassy", "Satisfactory",
+    "Satisfied", "Satisfying", "Saucy", "Savoury", "Savvy", "Scholarly", "Scientific",
+    "Scintillating", "Scrumptious", "Scrupulous", "Seamless", "Seasoned", "Secure", "Select",
+    "Self-Assertive", "Self-Assured", "Self-Confident", "Self-Disciplined", "Self-Made",
+    "Self-Sufficient", "Selfless", "Sensational", "Sensible", "Sensitive", "Sensual", "Sensuous",
+    "Sentimental", "Serendipitous", "Serene", "Settled", "Sexy", "Sharp", "Shatterproof",
+    "Shimmering", "Shining", "Shiny", "Significant", "Silver Tongued", "Sincere", "Singular",
+    "Sizzling", "Skilful", "Skilled", "Sleek", "Slick", "Slinky", "Smart", "Smashing", "Smiling",
+    "Smooth", "Snappy", "Snazzy", "Snuggly", "Soaring", "Sociable", "Soft", "Soft-Hearted", "Solid",
+    "Soothing", "Sophisticated", "Sought-After", "Soulful", "Sovereign", "Spacious", "Sparkling",
+    "Sparkly", "Special", "Spectacular", "Speedy", "Spellbinding", "Spicy", "Spirited", "Spiritual",
+    "Splendid", "Spontaneous", "Sporting", "Sporty", "Spotless", "Spot-On", "Sprightly", "Spruce",
+    "Spry", "Spunky", "Stable", "Statuesque", "Staunch", "Steadfast", "Steady", "Stellar",
+    "Sterling", "Stimulating", "Stirring", "Stout", "Stouthearted", "Straightforward", "Strapping",
+    "Strategic", "Street-Smart", "Striking", "Striving", "Strong", "Studious", "Stunning",
+    "Stupendous", "Sturdy", "Stylish", "Suave", "Sublime", "Substantial", "Subtle", "Successful",
+    "Succinct", "Sufficient", "Suitable", "Sultry", "Sumptuous", "Sunny", "Superabundant", "Superb",
+    "Superior", "Supple", "Supportive", "Supreme", "Surefooted", "Surpassing", "Surprising",
+    "Sustaining", "Svelte", "Sweet", "Swift", "Sympathetic", "Synchronistic", "Synergistic",
+    "Systematic"
+  ],
+
+  T: [
+    "Tactful", "Tailor-Made", "Talented", "Tangible", "Tasteful", "Tasty", "Teachable", "Temperate",
+    "Tenacious", "Tender", "Tender-Hearted", "Terrific", "Thankful", "Therapeutic", "Thorough",
+    "Thoughtful", "Thrifty", "Thrilling", "Thriving", "Tidy", "Timeless", "Timely", "Tireless",
+    "Tolerant", "Top-Notch", "Touching", "Tough", "Trailblazing", "Tranquil", "Transcendent",
+    "Transformative", "Transparent", "Treasure", "Tremendous", "Triumphant", "True", "Trusted",
+    "Trustworthy", "Twinkly"
+  ],
+
+  U: [
+    "Uber", "Ultimate", "Ultra", "Unabashed", "Unadulterated", "Unafraid", "Unambiguous",
+    "Unassuming", "Unbeaten", "Unbelievable", "Unbiased", "Unblemished", "Unbroken", "Uncommon",
+    "Uncomplicated", "Unconditional", "Unconventional", "Undaunted", "Undefeated", "Undeniable",
+    "Understanding", "Undiminished", "Undisputed", "Undivided", "Undoubted", "Unerring", "Unfailing",
+    "Unfaltering", "Unflappable", "Unforgettable", "Unified", "Unique", "United", "Universal",
+    "Unlimited", "Unmistakable", "Unrivalled", "Unruffled", "Unshakeable", "Unstoppable",
+    "Unsurpassed", "Untiring", "Unusual", "Unwavering", "Upbeat", "Uplifting", "Upright", "Useful",
+    "Utmost"
+  ],
+
+  V: [
+    "Valiant", "Valid", "Validating", "Valorous", "Valuable", "Valued", "Vehement", "Venturesome",
+    "Verified", "Versatile", "Vibrant", "Victorious", "Vigilant", "Vigorous", "Virile", "Visionary",
+    "Vital", "Vitalising", "Vivacious", "Vivid", "Vocal", "Volunteering", "Voluptuous"
+  ],
+
+  W: [
+    "Wanted", "Warm", "Warmhearted", "Wealthy", "Welcome", "Welcoming", "Well-Balanced",
+    "Wholehearted", "Wholesome", "Wide Awake", "Willing", "Winning", "Winsome", "Wise", "Wonderful",
+    "Wondrous", "Workable", "Worldly", "Worthwhile", "Worthy"
+  ],
+
+  X: [
+    "Xenial"
+  ],
+
+  Y: [
+    "Yearning", "Yes", "Young", "Young At Heart", "Youthful", "Yummy"
+  ],
+
+  Z: [
+    "Zany", "Zealous", "Zesty", "Zestful", "Zippy"
+  ],
+
 };
 
 /* ====================================================================
@@ -612,7 +820,6 @@ const WORDS = {
   var wrapper     = document.getElementById('wheel-wrapper');
   var centreLet   = document.getElementById('centre-letter');
   var spinBtn     = document.getElementById('spin-btn');
-  var resetBtn    = document.getElementById('reset-btn');
   var landed      = document.getElementById('landed');
 
   var metaLetter  = document.getElementById('meta-letter');
@@ -786,7 +993,64 @@ const WORDS = {
     requestAnimationFrame(function () {
       requestAnimationFrame(function () { wordState.classList.add('visible'); });
     });
+    speakWord(entry);
     emit('wordSelected', { letter: curLetter, word: entry });
+  }
+
+  /* ── Voice — calm female TTS via Web Speech API ──────────── */
+  function speakWord (word) {
+    if (!window.speechSynthesis) return;
+    window.speechSynthesis.cancel();
+
+    var utter = new SpeechSynthesisUtterance('I am ' + word);
+    utter.rate   = 0.82;
+    utter.pitch  = 1.05;
+    utter.volume = 1;
+
+    /* Ordered preference list — calm, female, English voices */
+    var preferred = [
+      'Google UK English Female',
+      'Samantha',
+      'Microsoft Zira - Desktop',
+      'Microsoft Zira',
+      'Karen',
+      'Moira',
+      'Tessa',
+      'Google US English'
+    ];
+
+    function pickVoice (voices) {
+      var i, j;
+      for (i = 0; i < preferred.length; i++) {
+        for (j = 0; j < voices.length; j++) {
+          if (voices[j].name === preferred[i]) return voices[j];
+        }
+      }
+      for (j = 0; j < voices.length; j++) {
+        if (/female/i.test(voices[j].name)) return voices[j];
+      }
+      for (j = 0; j < voices.length; j++) {
+        if (/^en[-_]/i.test(voices[j].lang)) return voices[j];
+      }
+      return voices[0] || null;
+    }
+
+    function doSpeak () {
+      var voices = window.speechSynthesis.getVoices();
+      var chosen = pickVoice(voices);
+      if (chosen) utter.voice = chosen;
+      window.speechSynthesis.speak(utter);
+    }
+
+    var voices = window.speechSynthesis.getVoices();
+    if (voices.length > 0) {
+      doSpeak();
+    } else {
+      window.speechSynthesis.onvoiceschanged = function () {
+        window.speechSynthesis.onvoiceschanged = null;
+        doSpeak();
+      };
+    }
   }
 
   function resetPanel () {
@@ -858,17 +1122,16 @@ const WORDS = {
     var seg = (2 * Math.PI) / n;
     var atPtr = wordAtPointer(n, seg);
 
-    /* Segment palette — rotating tints of the three ribbon colours.
-       Very low-saturation fills so words stay legible against dark background. */
+    /* Segment palette — full brand colours as on the A-Z road page */
     var SEG_TINTS = [
-      'rgba(231, 56, 121, 0.18)',  /* pink   */
-      'rgba(252, 199, 55, 0.13)',  /* yellow */
-      'rgba(126, 24, 145, 0.22)'   /* purple */
+      '#e73879',  /* pink   */
+      '#fcc737',  /* yellow */
+      '#7e1891'   /* purple */
     ];
     var SEG_HI = [
-      'rgba(231, 56, 121, 0.42)',
-      'rgba(252, 199, 55, 0.32)',
-      'rgba(126, 24, 145, 0.52)'
+      '#ff6aaa',  /* bright pink   */
+      '#ffe166',  /* bright yellow */
+      '#b030d8'   /* bright purple */
     ];
 
     /* Segments */
@@ -905,33 +1168,41 @@ const WORDS = {
       drawSegText(ctx, entries[i], cx, cy, innerR, ringR, mid, hi, SIZE);
     }
 
-    /* Outer ring(s) — match the editorial feel of the site */
+    /* Outer ring(s) — black lines */
     ctx.save();
     ctx.beginPath();
     ctx.arc(cx, cy, ringR, 0, Math.PI * 2);
-    ctx.strokeStyle = 'rgba(244,240,232,0.12)';
-    ctx.lineWidth = 1;
+    ctx.strokeStyle = '#000000';
+    ctx.lineWidth = 1.5;
     ctx.stroke();
 
     ctx.beginPath();
     ctx.arc(cx, cy, ringR + SIZE * 0.018, 0, Math.PI * 2);
-    ctx.strokeStyle = hexAlpha(accent, 0.32);
-    ctx.lineWidth = SIZE * 0.004;
+    ctx.strokeStyle = '#000000';
+    ctx.lineWidth = SIZE * 0.005;
     ctx.stroke();
 
     ctx.beginPath();
     ctx.arc(cx, cy, ringR + SIZE * 0.032, 0, Math.PI * 2);
-    ctx.strokeStyle = hexAlpha(accent, 0.1);
-    ctx.lineWidth = SIZE * 0.002;
+    ctx.strokeStyle = 'rgba(0,0,0,0.4)';
+    ctx.lineWidth = SIZE * 0.003;
     ctx.stroke();
     ctx.restore();
 
-    /* Inner ring around centre letter */
+    /* Black filled centre circle */
     ctx.save();
     ctx.beginPath();
     ctx.arc(cx, cy, innerR, 0, Math.PI * 2);
-    ctx.strokeStyle = hexAlpha(accent, 0.45);
-    ctx.lineWidth = SIZE * 0.005;
+    ctx.fillStyle = '#000000';
+    ctx.fill();
+    ctx.restore();
+
+    /* Inner ring around centre letter — black */
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(cx, cy, innerR, 0, Math.PI * 2);
+    ctx.strokeStyle = '#000000';
+    ctx.lineWidth = SIZE * 0.006;
     ctx.stroke();
     ctx.restore();
 
@@ -950,7 +1221,7 @@ const WORDS = {
     ctx.font = (hi ? '700 ' : '400 ') + fs + "px 'PT Sans', sans-serif";
     ctx.textAlign = 'right';
     ctx.textBaseline = 'middle';
-    ctx.fillStyle = hi ? '#f4f0e8' : 'rgba(244,240,232,0.78)';
+    ctx.fillStyle = '#ffffff';
 
     var mw = ctx.measureText(word).width;
     if (mw > maxW) {
@@ -1026,7 +1297,6 @@ const WORDS = {
 
   /* ── Wire up controls ─────────────────────────────────────── */
   spinBtn.addEventListener('click', doSpin);
-  resetBtn.addEventListener('click', resetPanel);
 
   /* Optional: click on canvas centre also spins */
   canvas.addEventListener('click', function (e) {
