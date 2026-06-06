@@ -376,19 +376,14 @@
       display: none;
       opacity: 0;
       transform: translateY(10px);
-      background: rgba(0,0,0,0);
-      padding: 28px 32px;
-      border-radius: 4px;
       transition:
         opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
-        transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
-        background 0.65s ease;
+        transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
     }
     #word-state.visible {
       display: block;
       opacity: 1;
       transform: translateY(0);
-      background: rgba(0,0,0,0.88);
     }
 
     #word-eyebrow {
@@ -410,10 +405,18 @@
       font-family: var(--font-display);
       font-weight: 400;
       font-size: clamp(56px, 8vw, 96px);
-      line-height: 1;
+      line-height: 1.1;
       color: var(--accent, var(--pink));
       letter-spacing: -0.005em;
-      overflow: visible;
+      display: inline-block;
+      background: #000000;
+      padding: 4px 14px 8px 0;
+      /* Start fully clipped — grows left-to-right on reveal */
+      clip-path: inset(0 100% 0 0);
+      transition: clip-path 0.52s cubic-bezier(0.22, 1, 0.36, 1) 0.08s;
+    }
+    #word-state.visible #word-title {
+      clip-path: inset(0 0% 0 0);
     }
 
     /* ====================================================================
@@ -553,7 +556,8 @@ const WORDS = {
     "Benignant", "Best", "Big", "Big Hearted", "Blameless", "Blazing", "Blessed", "Blissful",
     "Blithe", "Blooming", "Bodacious", "Boisterous", "Bold", "Bonafide", "Bonnie", "Boundless",
     "Bounteous", "Bountiful", "Brainy", "Brave", "Breezy", "Bright", "Brilliant", "Brimming",
-    "Broadminded", "Brisk", "Bubbly", "Buddy", "Buoyant", "Busy", "Business Like", "Buxom"
+    "Broadminded", "Brisk", "Bubbly", "Buddy", "Buoyant", "Busy", "Business Like", "Buxom",
+    "Test"
   ],
 
   C: [
@@ -653,7 +657,8 @@ const WORDS = {
     "Intelligent", "Intense", "Intent", "Interactive", "Interconnected", "Interested", "Interesting",
     "Intertwined", "Intimate", "Intoxicating", "Intrepid", "Intriguing", "Intuitive", "Invaluable",
     "Inventive", "Invigorated", "Invigorating", "Invincible", "Inviolable", "Inviting",
-    "Irrefutable", "Irreplaceable", "Irrepressible", "Irreproachable", "Irresistible"
+    "Irrefutable", "Irreplaceable", "Irrepressible", "Irreproachable", "Irresistible",
+    "Test"
   ],
 
   J: [
@@ -663,7 +668,8 @@ const WORDS = {
 
   K: [
     "Keen", "Kempt", "Key", "Kind", "Kindhearted", "Kindly", "Kindred", "Kinetic", "Kingly",
-    "Kissable", "Knowing", "Knowledgeable", "Kooky"
+    "Kissable", "Knowing", "Knowledgeable", "Kooky",
+    "Test"
   ],
 
   L: [
@@ -685,21 +691,24 @@ const WORDS = {
     "Mesmerising", "Metaphysical", "Meteoric", "Methodical", "Meticulous", "Mettlesome", "Mighty",
     "Mindful", "Miraculous", "Mirthful", "Model", "Modern", "Modernistic", "Modest", "Momentous",
     "Moneyed", "Morphing", "Motivated", "Motivating", "Motivational", "Mouth-Watering", "Moving",
-    "Multidimensional", "Multi-Disciplined", "Multifaceted", "Musical", "Mutual", "Munificent"
+    "Multidimensional", "Multi-Disciplined", "Multifaceted", "Musical", "Mutual", "Munificent",
+    "Test"
   ],
 
   N: [
     "Native", "Natural", "Natty", "Neat", "Necessary", "Needed", "Neighbourly", "Neoteric",
     "Nestling", "Neutral", "Newborn", "Nice", "Nifty", "Nimble", "Nimble-Witted", "Nippy", "Noble",
     "Noetic", "Nonchalant", "Non-Violent", "Normal", "Notable", "Noteworthy", "Noticeable",
-    "Nourished", "Nourishing", "Number One", "Nurturing"
+    "Nourished", "Nourishing", "Number One", "Nurturing",
+    "Test"
   ],
 
   O: [
     "Objective", "Obliging", "Observant", "Obtainable", "Open", "Openhanded", "Open Hearted",
     "Open Minded", "Operative", "Opportune", "Optimal", "Optimistic", "Optimum", "Opulent",
     "Orderly", "Organic", "Organised", "Oriented", "Original", "Ornamental", "Outgoing",
-    "Outlasting", "Outrageous", "Outstanding", "Overflowing", "Overjoyed", "Overt", "Owning"
+    "Outlasting", "Outrageous", "Outstanding", "Overflowing", "Overjoyed", "Overt", "Owning",
+    "Test"
   ],
 
   P: [
@@ -734,7 +743,8 @@ const WORDS = {
     "Resourceful", "Respectable", "Respectful", "Resplendent", "Responsible", "Responsive",
     "Restful", "Restorative", "Revered", "Reverent", "Revitalising", "Revolutionary", "Rewarding",
     "Rhapsodic", "Rich", "Righteous", "Rightful", "Ripe", "Robust", "Romantic", "Rooted", "Rosy",
-    "Rounded", "Rollicking", "Rousing", "Rugged"
+    "Rounded", "Rollicking", "Rousing", "Rugged",
+    "Test"
   ],
 
   S: [
@@ -778,7 +788,8 @@ const WORDS = {
     "Unfaltering", "Unflappable", "Unforgettable", "Unified", "Unique", "United", "Universal",
     "Unlimited", "Unmistakable", "Unrivalled", "Unruffled", "Unshakeable", "Unstoppable",
     "Unsurpassed", "Untiring", "Unusual", "Unwavering", "Upbeat", "Uplifting", "Upright", "Useful",
-    "Utmost"
+    "Utmost",
+    "Test"
   ],
 
   V: [
@@ -1165,7 +1176,7 @@ const WORDS = {
       ctx.stroke();
       ctx.restore();
 
-      drawSegText(ctx, entries[i], cx, cy, innerR, ringR, mid, hi, SIZE);
+      drawSegText(ctx, entries[i], cx, cy, innerR, ringR, mid, hi, SIZE, n);
     }
 
     /* Outer ring(s) — black lines */
@@ -1210,10 +1221,13 @@ const WORDS = {
     drawPointer(ctx, cx, cy, ringR, SIZE, accent, 1);
   }
 
-  function drawSegText (ctx, word, cx, cy, innerR, outerR, midAngle, hi, SIZE) {
+  function drawSegText (ctx, word, cx, cy, innerR, outerR, midAngle, hi, SIZE, n) {
     var textEdge = outerR - SIZE * 0.028;
-    var maxW = textEdge - innerR - SIZE * 0.02;
-    var fs = Math.min(SIZE * 0.028, 16);
+    var maxW     = textEdge - innerR - SIZE * 0.02;
+    /* Scale font to segment arc height so words always fit comfortably */
+    var midR     = (innerR + outerR) / 2;
+    var segArcH  = midR * (2 * Math.PI / n);
+    var fs       = Math.max(7, Math.min(SIZE * 0.032, segArcH * 0.78, 18));
 
     ctx.save();
     ctx.translate(cx, cy);
