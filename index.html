@@ -563,6 +563,24 @@
 
     </aside>
   </main>
+
+  <!-- ── Dev-tools colour picker ──────────────────────────────── -->
+  <button id="devtools-btn" title="Developer colour tools" aria-label="Open colour tools">&#9881;</button>
+  <div id="devtools-panel">
+    <h4>Wheel Colours</h4>
+    <div class="dt-row">
+      <label>Pink</label>
+      <input type="color" id="dt-pink" value="#e73879" />
+    </div>
+    <div class="dt-row">
+      <label>Yellow</label>
+      <input type="color" id="dt-yellow" value="#fcc737" />
+    </div>
+    <div class="dt-row">
+      <label>Purple</label>
+      <input type="color" id="dt-purple" value="#7e1891" />
+    </div>
+  </div>
 </div>
 
 <script>
@@ -1438,6 +1456,29 @@ const WORDS = {
   });
 
 }());
+
+  /* ── Dev-tools colour picker ────────────────────────────────── */
+  (function () {
+    var btn    = document.getElementById('devtools-btn');
+    var panel  = document.getElementById('devtools-panel');
+    var dtPink   = document.getElementById('dt-pink');
+    var dtYellow = document.getElementById('dt-yellow');
+    var dtPurple = document.getElementById('dt-purple');
+    var root   = document.documentElement;
+
+    btn.addEventListener('click', function () {
+      panel.classList.toggle('open');
+    });
+
+    function applyColour(varName, val) {
+      root.style.setProperty(varName, val);
+      if (typeof draw === 'function') draw();
+    }
+
+    dtPink.addEventListener('input',   function () { applyColour('--pink',   dtPink.value);   });
+    dtYellow.addEventListener('input', function () { applyColour('--yellow', dtYellow.value); });
+    dtPurple.addEventListener('input', function () { applyColour('--purple', dtPurple.value); });
+  }());
 </script>
 </body>
 </html>
