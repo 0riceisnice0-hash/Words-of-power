@@ -1267,10 +1267,11 @@ const WORDS = {
     var atPtr = wordAtPointer(n, seg);
 
     /* Segment palette — full brand colours as on the A-Z road page */
+    var _cs = getComputedStyle(document.documentElement);
     var SEG_TINTS = [
-      '#e73879',  /* pink   */
-      '#fcc737',  /* yellow */
-      '#7e1891'   /* purple */
+      (_cs.getPropertyValue('--pink').trim()   || '#e73879'),
+      (_cs.getPropertyValue('--yellow').trim() || '#fcc737'),
+      (_cs.getPropertyValue('--purple').trim() || '#7e1891')
     ];
     var SEG_HI = [
       '#ff6aaa',  /* bright pink   */
