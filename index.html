@@ -503,7 +503,21 @@
       cursor: pointer;
       padding: 0;
       background: none;
+      flex-shrink: 0;
     }
+    .dt-hex {
+      width: 72px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 4px;
+      color: rgba(255,255,255,0.85);
+      font-family: monospace;
+      font-size: 12px;
+      padding: 3px 6px;
+      text-transform: uppercase;
+      flex-shrink: 0;
+    }
+    .dt-hex:focus { outline: none; border-color: rgba(255,255,255,0.5); }
   </style>
 </head>
 
@@ -571,14 +585,17 @@
     <div class="dt-row">
       <label>Pink</label>
       <input type="color" id="dt-pink" value="#e73879" />
+      <input type="text" class="dt-hex" id="dt-pink-hex" value="#E73879" maxlength="7" />
     </div>
     <div class="dt-row">
       <label>Yellow</label>
       <input type="color" id="dt-yellow" value="#fcc737" />
+      <input type="text" class="dt-hex" id="dt-yellow-hex" value="#FCC737" maxlength="7" />
     </div>
     <div class="dt-row">
       <label>Purple</label>
       <input type="color" id="dt-purple" value="#7e1891" />
+      <input type="text" class="dt-hex" id="dt-purple-hex" value="#7E1891" maxlength="7" />
     </div>
   </div>
 </div>
@@ -1461,9 +1478,6 @@ const WORDS = {
   (function () {
     var btn    = document.getElementById('devtools-btn');
     var panel  = document.getElementById('devtools-panel');
-    var dtPink   = document.getElementById('dt-pink');
-    var dtYellow = document.getElementById('dt-yellow');
-    var dtPurple = document.getElementById('dt-purple');
     var root   = document.documentElement;
 
     btn.addEventListener('click', function () {
@@ -1475,9 +1489,32 @@ const WORDS = {
       if (typeof draw === 'function') draw();
     }
 
-    dtPink.addEventListener('input',   function () { applyColour('--pink',   dtPink.value);   });
-    dtYellow.addEventListener('input', function () { applyColour('--yellow', dtYellow.value); });
-    dtPurple.addEventListener('input', function () { applyColour('--purple', dtPurple.value); });
+    function wireColour(swatchId, hexId, varName) {
+      var swatch = document.getElementById(swatchId);
+      var hex    = document.getElementById(hexId);
+
+      swatch.addEventListener('input', function () {
+        applyColour(varName, swatch.value);
+        hex.value = swatch.value.toUpperCase();
+      });
+
+      hex.addEventListener('input', function () {
+        var v = hex.value.trim();
+        if (/^#[0-9a-fA-F]{6}$/.test(v)) {
+          swatch.value = v;
+          applyColour(varName, v);
+        }
+      });
+
+      hex.addEventListener('blur', function () {
+        /* snap display back to swatch value if hex was invalid */
+        hex.value = swatch.value.toUpperCase();
+      });
+    }
+
+    wireColour('dt-pink',   'dt-pink-hex',   '--pink');
+    wireColour('dt-yellow', 'dt-yellow-hex', '--yellow');
+    wireColour('dt-purple', 'dt-purple-hex', '--purple');
   }());
 </script>
 </body>
