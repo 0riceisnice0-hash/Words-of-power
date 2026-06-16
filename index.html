@@ -73,39 +73,16 @@
       flex-direction: column;
     }
 
-    /* Subtle ribbon flourishes in the background — echo of the site's letterforms */
-    #app::before,
-    #app::after {
-      content: '';
-      position: absolute;
-      pointer-events: none;
-      z-index: 0;
-      opacity: 0.55;
-      mix-blend-mode: screen;
-    }
-    #app::before {
-      top: -120px;
-      right: -160px;
-      width: 520px;
-      height: 520px;
-      background: radial-gradient(circle at center, rgba(231, 56, 121, 0.18), transparent 62%);
-      filter: blur(40px);
-    }
-    #app::after {
-      bottom: -140px;
-      left: -120px;
-      width: 540px;
-      height: 540px;
-      background: radial-gradient(circle at center, rgba(126, 24, 145, 0.22), transparent 62%);
-      filter: blur(50px);
-    }
+    /* Decorative ribbon flourishes removed — keeps bg colour exact */
 
     /* ====================================================================
        LETTER INDEX — always visible alphabet strip
     ==================================================================== */
     #letter-index {
-      position: relative;
-      z-index: 2;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: #099696;
       display: flex;
       flex-wrap: wrap;
       gap: 0;
@@ -438,7 +415,7 @@
     }
 
     @media (max-width: 420px) {
-      .letter-btn { min-width: 0; padding: 9px 1px; font-size: 12px; }
+      .letter-btn { min-width: 0; padding: 10px 2px; font-size: 15px; }
     }
 
     /* ── Dev-tools colour picker ──────────────────────────────────── */
@@ -1128,6 +1105,15 @@ const WORDS = {
 
   /* ── Show / hide word ─────────────────────────────────────── */
   function showWord (entry) {
+    /* Colour the word to match its wheel segment (cycles pink → yellow → purple) */
+    var cs = getComputedStyle(document.documentElement);
+    var segColours = [
+      cs.getPropertyValue('--pink').trim()   || '#e73879',
+      cs.getPropertyValue('--yellow').trim() || '#fcc737',
+      cs.getPropertyValue('--purple').trim() || '#7e1891'
+    ];
+    wordTitle.style.color = segColours[selIdx % 3];
+
     wordTitle.textContent = entry;
     landed.innerHTML      = 'Your word is <strong>' + entry + '</strong>';
 
@@ -1444,7 +1430,17 @@ const WORDS = {
   });
 
   /* ── Wire up controls ─────────────────────────────────────── */
-  spinBtn.addEventListener('click', doSpin);
+  spinBtn.addEventListener('click', function () {
+    /* iOS Safari requires speechSynthesis to be called synchronously from a
+       user-gesture handler. Prime it here so the deferred speak() after the
+       spin animation is allowed. */
+    if (window.speechSynthesis) {
+      var primer = new SpeechSynthesisUtterance('');
+      window.speechSynthesis.speak(primer);
+      window.speechSynthesis.cancel();
+    }
+    doSpin();
+  });
 
   /* Optional: click on canvas centre also spins */
   canvas.addEventListener('click', function (e) {
