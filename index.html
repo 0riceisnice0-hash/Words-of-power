@@ -410,45 +410,61 @@
     }
 
     @media (max-width: 600px) {
-      html, body { overflow: auto; height: auto; }
-      #app { height: auto; min-height: 100vh; padding: 14px 14px 28px; overflow: visible; }
+      html, body { overflow-x: hidden; overflow-y: auto; height: auto; }
+      #app {
+        height: auto;
+        min-height: 100vh;
+        padding: 14px 0 28px;
+        overflow-x: hidden;
+        overflow-y: visible;
+        max-width: 100vw;
+      }
 
-      /* Alphabet: exactly two rows of 13 — each btn = 1/13 of row width */
+      /* Alphabet: CSS grid — exact two rows of 13, no sub-pixel overflow */
       #letter-index {
-        margin-bottom: 18px;
+        display: grid;
+        grid-template-columns: repeat(13, 1fr);
+        width: 100%;
+        margin: 0 0 18px;
         padding: 4px 0;
         border-top: 1px solid var(--keyline);
         border-bottom: 1px solid var(--keyline);
-        gap: 1px 0;
+        gap: 0;
       }
       .letter-btn {
-        flex: 0 0 calc(100% / 13);
-        max-width: calc(100% / 13);
+        flex: none;
         min-width: 0;
+        width: 100%;
         padding: 11px 0 9px;
         font-size: 18px;
         font-weight: 500;
+        border-right: 1px solid var(--keyline-soft);
       }
-      /* Right-border only on letters that aren't last in their row
-         (13th and 26th get no border) */
-      .letter-btn { border-right: 1px solid var(--keyline-soft); }
       .letter-btn:nth-child(13n) { border-right: none; }
-      /* First row gets a bottom divider */
       .letter-btn:nth-child(-n+13) { border-bottom: 1px solid var(--keyline-soft); }
 
-      #panel-meta { padding-bottom: 12px; margin-bottom: 18px; }
+      #panel-meta { padding: 0 16px 12px; margin-bottom: 18px; }
+      #empty-state, #coming-state, #word-state { padding-left: 16px; padding-right: 16px; }
       .meta-label { font-size: 14px; }
       #word-eyebrow { font-size: clamp(26px, 7vw, 38px); margin-bottom: 14px; }
       #word-title { font-size: clamp(40px, 11vw, 64px); padding: 4px 12px 6px 12px; }
       #empty-title { font-size: clamp(28px, 8vw, 40px); }
       .btn { padding: 11px 22px; font-size: 11px; }
-      #wheel-col { width: 100%; max-width: 320px; margin-left: auto; margin-right: auto; gap: 12px; }
+
+      /* Wheel column — centre against the viewport, not the parent */
+      #wheel-col {
+        width: 100%;
+        max-width: 320px;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        gap: 12px;
+      }
       #centre-letter { font-size: clamp(56px, 16vw, 90px); }
     }
 
     @media (max-width: 380px) {
       .letter-btn { font-size: 16px; padding: 10px 0 8px; }
-      #wheel-col { width: 100%; max-width: 280px; margin-left: auto; margin-right: auto; }
+      #wheel-col { max-width: 280px; }
     }
 
     /* ── Dev-tools colour picker ──────────────────────────────────── */
