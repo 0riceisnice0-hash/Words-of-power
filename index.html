@@ -403,9 +403,10 @@
        RESPONSIVE
     ==================================================================== */
     @media (max-width: 900px) {
-      #stage { grid-template-columns: 1fr; gap: 18px; }
-      #wheel-col { max-width: 380px; margin: 0 auto; gap: 14px; }
-      #panel { min-height: auto; }
+      #stage { grid-template-columns: 1fr; gap: 18px; justify-items: center; }
+      #wheel-col { width: 100%; max-width: 380px; margin-left: auto; margin-right: auto; gap: 14px; }
+      #wheel-wrapper { margin-left: auto; margin-right: auto; }
+      #panel { min-height: auto; width: 100%; }
     }
 
     @media (max-width: 600px) {
@@ -441,13 +442,13 @@
       #word-title { font-size: clamp(40px, 11vw, 64px); padding: 4px 12px 6px 12px; }
       #empty-title { font-size: clamp(28px, 8vw, 40px); }
       .btn { padding: 11px 22px; font-size: 11px; }
-      #wheel-col { max-width: 320px; gap: 12px; }
+      #wheel-col { width: 100%; max-width: 320px; margin-left: auto; margin-right: auto; gap: 12px; }
       #centre-letter { font-size: clamp(56px, 16vw, 90px); }
     }
 
     @media (max-width: 380px) {
       .letter-btn { font-size: 16px; padding: 10px 0 8px; }
-      #wheel-col { max-width: 280px; }
+      #wheel-col { width: 100%; max-width: 280px; margin-left: auto; margin-right: auto; }
     }
 
     /* ── Dev-tools colour picker ──────────────────────────────────── */
