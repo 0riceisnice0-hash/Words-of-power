@@ -461,7 +461,7 @@
       #empty-title { font-size: clamp(28px, 8vw, 40px); }
       .btn { padding: 11px 22px; font-size: 11px; }
 
-      /* Wheel column — always centred inside its parent */
+      /* Wheel column — always centred inside its parent, nudged 20px left on mobile */
       #wheel-col {
         width: calc(100% - 32px);
         max-width: 320px;
@@ -469,6 +469,7 @@
         margin-left: auto !important;
         margin-right: auto !important;
         gap: 12px;
+        transform: translateX(-20px);
       }
       #wheel-wrapper { width: 100%; max-width: 100%; }
       #centre-letter { font-size: clamp(56px, 16vw, 90px); }
