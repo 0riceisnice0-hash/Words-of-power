@@ -428,10 +428,10 @@
         overflow-x: hidden;
       }
 
-      /* Alphabet: CSS grid — exactly two rows of 13, contained to parent width */
+      /* Alphabet: CSS grid — three rows of 9 (last row has 8), larger tap targets */
       #letter-index {
         display: grid;
-        grid-template-columns: repeat(13, minmax(0, 1fr));
+        grid-template-columns: repeat(9, minmax(0, 1fr));
         width: 100%;
         max-width: 100%;
         margin: 0 0 18px;
@@ -444,13 +444,16 @@
         flex: none;
         min-width: 0;
         width: 100%;
-        padding: 11px 0 9px;
-        font-size: 18px;
+        padding: 12px 0 10px;
+        font-size: 22px;
         font-weight: 500;
         border-right: 1px solid var(--keyline-soft);
       }
-      .letter-btn:nth-child(13n) { border-right: none; }
-      .letter-btn:nth-child(-n+13) { border-bottom: 1px solid var(--keyline-soft); }
+      /* Right-border: none on last item of each row (9th, 18th, 26th=last) */
+      .letter-btn:nth-child(9n),
+      .letter-btn:last-child { border-right: none; }
+      /* Bottom divider on rows 1 & 2 (first 18 items) */
+      .letter-btn:nth-child(-n+18) { border-bottom: 1px solid var(--keyline-soft); }
 
       #panel-meta { padding: 0 16px 12px; margin-bottom: 18px; }
       #empty-state, #coming-state, #word-state { padding-left: 16px; padding-right: 16px; }
@@ -474,7 +477,7 @@
     }
 
     @media (max-width: 380px) {
-      .letter-btn { font-size: 16px; padding: 10px 0 8px; }
+      .letter-btn { font-size: 19px; padding: 11px 0 9px; }
       #wheel-col { max-width: 260px; }
     }
 
