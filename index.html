@@ -422,36 +422,37 @@
         width: 100%;
         max-width: 100%;
         height: 100vh;
-        padding: 12px 6px 20px;
+        padding: 12px 14px 20px;
         overflow: hidden;
       }
 
-      /* Alphabet: centred flex — nine per row, incomplete last row centres */
+      /* Alphabet: fixed 9-col grid — every column lines up, fills left-to-right */
       #letter-index {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
+        display: grid;
+        grid-template-columns: repeat(9, 1fr);
         width: 100%;
         max-width: 100%;
         margin: 0 0 14px;
-        padding: 6px 0;
+        padding: 4px 0;
         border-top: 1px solid var(--keyline);
         border-bottom: 1px solid var(--keyline);
-        gap: 2px;
+        gap: 0;
       }
       .letter-btn {
-        flex: 0 0 calc((100% - 16px) / 9);
-        max-width: calc((100% - 16px) / 9);
+        display: flex;
+        align-items: center;
+        justify-content: center;
         min-width: 0;
-        width: auto;
+        width: 100%;
         padding: 8px 0;
-        font-size: 16px;
+        font-size: 15px;
         font-weight: 500;
         border: none;
-        border-radius: 6px;
+        overflow: hidden;
       }
       .letter-btn.active {
         background: linear-gradient(to bottom, rgba(244, 240, 232, 0.10), rgba(244, 240, 232, 0.02));
+        border-radius: 5px;
       }
 
       #panel-meta { padding: 0 16px 12px; margin-bottom: 18px; }
@@ -477,7 +478,7 @@
     }
 
     @media (max-width: 380px) {
-      .letter-btn { font-size: 14px; padding: 7px 0; }
+      .letter-btn { font-size: 13px; padding: 7px 0; }
       #wheel-col { max-width: 260px; }
     }
   </style>
