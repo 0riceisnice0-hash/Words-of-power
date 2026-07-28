@@ -442,6 +442,9 @@
         border-bottom: 1px solid var(--keyline);
         gap: 0;
         overflow: hidden;
+        /* Shift left by the same amount as the wheel so the alphabet's
+           centre lines up with the wheel's centre (the wheel is the anchor). */
+        transform: translateX(-20px);
       }
       .letter-btn {
         display: flex;
