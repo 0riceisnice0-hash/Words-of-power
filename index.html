@@ -426,10 +426,14 @@
         overflow: hidden;
       }
 
-      /* Alphabet: fixed 9-col grid — every column lines up, fills left-to-right */
+      /* Alphabet: fixed 9-col grid — every column lines up, fills left-to-right.
+         minmax(0, 1fr) forces columns to divide the width EXACTLY so the grid
+         never overflows the right edge on iOS Safari (which clips the last
+         column and makes the side spacing look uneven). */
       #letter-index {
         display: grid;
-        grid-template-columns: repeat(9, 1fr);
+        grid-template-columns: repeat(9, minmax(0, 1fr));
+        box-sizing: border-box;
         width: 100%;
         max-width: 100%;
         margin: 0 0 14px;
@@ -437,6 +441,7 @@
         border-top: 1px solid var(--keyline);
         border-bottom: 1px solid var(--keyline);
         gap: 0;
+        overflow: hidden;
       }
       .letter-btn {
         display: flex;
